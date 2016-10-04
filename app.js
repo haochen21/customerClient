@@ -74,7 +74,7 @@ function checkLogin(req, res, next) {
     if (req.session && req.session.user) {
         return next();
     } else {
-        res.redirect('/');
+        res.redirect('/?#/login');
     }
 }
 
@@ -172,6 +172,6 @@ app.use(logErrors);
 app.use(errorHandler);
 
 
-server.listen(80, function () {
+server.listen(2080, function () {
     console.info('server listening on port 80');
 });    
