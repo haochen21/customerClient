@@ -1,0 +1,35 @@
+<div class="portal-container">
+  <div class="table-btns">
+    <div class="btn-group">
+      <button md-mini-fab color="myprimary" (click)="addMerchant($event)">
+                 <md-icon fontSet="fa" fontIcon="fa-search"></md-icon>
+              </button>
+      <button md-mini-fab color="myprimary" (click)="scanBarCode($event)">
+                 <md-icon fontSet="fa" fontIcon="fa-barcode"></md-icon>
+              </button>
+    </div>
+  </div>
+  <div *ngFor="let m of merchants" class="list-group">
+    <a class="list-group-item" (click)="goToMerchant(m)">
+      <div class="media-box">
+        <div class="pull-left img-container">
+          <img *ngIf="m.imageSource" [src]="imagePreUrl+m.imageSource+'-sm'" style="width:60px; height:60px;">
+          <img *ngIf="!m.imageSource" src="../../assets/images/merchant-sm.png" style="width:60px; height:60px;">
+        </div>
+        <div class="media-box-body clearfix">
+          <div class="body-container">
+            <p class="m0">{{m.shortName}}</p>
+            <p class="m0 text-muted">
+              <small>全称 -- {{m.name}}</small>
+            </p>
+            <p class="m0 text-muted">
+              <small>地址 -- {{m.address}}</small>
+            </p>
+            <button type="button" class="btn btn-warning btn-sm cancel-care" (click)="cancelConcern($event,m)">取消关注商户</button>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+<ticket-navbar></ticket-navbar>

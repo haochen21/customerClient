@@ -1,0 +1,86 @@
+<div class="cartbill-container">
+    <div class="header">
+        <div class="header-bar">
+            <span class="title">确认订单</span>
+        </div>
+    </div>
+    <div class="order-form" *ngIf="cart">
+        <section class="rec-addr">
+            <div class="addrinfo1">
+                <span class="recname">收货人：<span>{{cart.customer.name}}</span></span><span class="recphone pull-right">{{cart.customer.phone}}</span>
+            </div>
+            <div class="addrinfo2">
+                <span class="recaddr">收货人卡号：<span>{{cart.customer.cardNo}}</span></span>
+            </div>
+        </section>
+        <section class="good-list">
+            <div class="warehouse">{{cart.merchant.name}}</div>
+            <div class="good-detail" *ngFor="let item of cart.cartItems">
+                <div class="good-img">
+                    <img *ngIf="item.product.imageSource" [src]="imagePreUrl+item.product.imageSource+'-sm'">
+                    <img *ngIf="!item.product.imageSource" src="../../assets/images/orderpic_03.png">
+                </div>
+                <div class="good-info">
+                    <div class="gtitle"><b></b>{{item.name}}</div>
+                    <div class="gprinum">
+                        <span class="gprice">¥{{item.unitPrice}}</span>
+                        <span class="gnum">X&nbsp;&nbsp;{{item.quantity}}</span>
+                    </div>
+                </div>
+                <div class="totalPrice">
+                    <span>¥{{item.unitPrice*item.quantity | numberFormatPipe}}</span>
+                </div>
+            </div>
+        </section>
+        <section class="top-border"></section>
+        <section class="good-settlement">
+            <div class="title">结算</div>
+            <div class="detail">
+                <ul>
+                    <li class="item">
+                        <span class="pull-left">商品应付总计</span>
+                        <span class="pull-right amount">¥{{getTotalPirce() | numberFormatPipe}}</span>
+                    </li>
+                    <li class="item">
+                        <span class="pull-left">优惠</span>
+                        <span class="pull-right amount freightfree">¥0.00</span>
+                    </li>
+                    <li class="item">
+                        <span class="pull-left">应付总额</span>
+                        <span class="pull-right amount">¥{{getTotalPirce() | numberFormatPipe}}</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="good-ack">
+            <form class="good-ack-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label class="col-sm-2 form-control-label">取货时间</label>
+                    <div class="col-sm-10 text-danger" *ngIf="nextDay">
+                        <md-checkbox (change)="selectNextDay = !selectNextDay">
+                            当天营业时间已结束,选择第二天时间段
+                        </md-checkbox>                        
+                    </div>
+                </div>
+                <div class="form-group">                    
+                    <div class="col-sm-10" *ngIf="!nextDay || (nextDay && selectNextDay)">
+                        <md-radio-group formControlName="takeTimeRange">
+                            <md-radio-button *ngFor="let ctt of cartTakeTime" [value]="ctt">
+                                {{ctt.desc}}
+                            </md-radio-button>
+                        </md-radio-group>
+                    </div>
+                </div>
+                <div class="form-group" *ngIf="orderResult && !orderResult.result">
+                    <span class="col-xs-12 form-control-label order-error">{{orderResult.error}}</span>
+                </div>
+
+                <button md-raised-button color="warn" [disabled]="cartTakeTime.length === 0 || !form.valid || (nextDay && !selectNextDay)">提交订单</button>
+            </form>
+
+        </section>
+    </div>
+    <ng2-toasty position="top-right"></ng2-toasty>
+    <ng2-slim-loading-bar></ng2-slim-loading-bar>
+</div>
+<ticket-navbar></ticket-navbar>

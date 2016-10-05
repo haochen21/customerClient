@@ -1,0 +1,23 @@
+.modify-phone-container {
+    margin: 10px;
+}
+
+.modifyphone-card {
+   padding: 0;
+}
+md-toolbar.md-primary {
+    background:#3090e6;
+    color: white;
+}
+md-card-content.content {
+    padding: 20px 10px 10px 10px;
+}
+.full-width {
+  width: 100%;
+}
+.btn-submit {
+    width:100%;
+    background: #3090e6;
+    color: #fff;
+    font-size: 16px;
+}

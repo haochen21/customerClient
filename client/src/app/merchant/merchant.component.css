@@ -1,0 +1,23 @@
+.merchant-container {
+    font: 12px/1.5 "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB",\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
+    color: #333;
+    outline: 0;
+    top: 0;
+    left: 0px;
+    right: 0px;
+    bottom: 50px;
+    position: absolute;
+    overflow: auto;
+}
+.row {
+  display: block;
+}
+.demo-secondary-text {
+  color: rgba(0, 0, 0, 0.54);
+}
+.query-panel {
+  padding: 15px 0 25px 0;
+}
+md-list-item::last-child {
+  margin-bottom: 50px;
+}

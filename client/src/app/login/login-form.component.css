@@ -1,0 +1,48 @@
+.login-formcontent {
+	color: #fff;
+	margin-top: 20px;
+}
+.login-formcontent label {
+	margin-top: 12px;
+	font-weight: normal;
+}
+.login-formcontent .form-control {
+	background: #fff;
+	height: 45px;
+	border: 1px solid #fff;
+	box-shadow: inset 0 0px 0px rgba(0,0,0,0.075);
+	padding: 6px 12px 6px 32px;
+}
+.login-formcontent .btn {
+	border: 1px solid #f74342;
+	background: #f74342;
+	color: #fff;
+	height: 45px;
+	font-weight: bold;
+	width: 100%;
+	margin-top: 30px
+}
+@media (min-width: 1200px){
+  .login-formcontent .btn {
+     width: 120px;
+     font-size: 18px;
+     margin-top: 0px;
+  }
+}
+.login-formcontent .btn:hover {
+	border: 1px solid #e62625;
+	background: #e62625;
+}
+.login-formcontent .input-text-box, .register-form .input-text-box {
+	position: relative
+}
+.login-formcontent .input-text-box i, .register-form .input-text-box i {
+	position: absolute;
+	left: 15px;
+	top: 14px;
+	color: #ccc
+}
+.login-errorMsg {
+    color: #FE6;
+	margin-top: 15px;
+}
