@@ -22,7 +22,7 @@ ticketSocket.initialize(io);
 
 stompMessage.initialize(io);
 
-app.use(compression());  
+app.use(compression());
 
 app.use(express.static(__dirname + '/client/dist'));
 
@@ -69,12 +69,13 @@ var router = express.Router();
 router.use('/user/*', checkLogin);
 router.use('/cart/*', checkLogin);
 router.use('/product/*', checkLogin);
+router.use('/customer/*', checkLogin);
 
 function checkLogin(req, res, next) {
     if (req.session && req.session.user) {
         return next();
     } else {
-        res.redirect('/?#/login');
+        res.status(401).end();
     }
 }
 
@@ -99,7 +100,7 @@ router.route('/customer')
     .post(service.security.createCustomer)
     .put(service.security.modifyCustomer);
 router.route('/customer/modifyPhone', checkLogin)
-    .put(service.security.modifyCustomerPhone);    
+    .put(service.security.modifyCustomerPhone);
 router.route('/customer/merchant')
     .get(service.security.findMechantsOfCustomer)
     .post(service.security.saveMerchantsOfCustomer);
@@ -110,9 +111,9 @@ router.route('/password', checkLogin)
 router.route('/merchant/open')
     .put(service.security.modifyOpen);
 router.route('/merchant/qrCode')
-    .put(service.security.updateMerchantQrCode);    
+    .put(service.security.updateMerchantQrCode);
 router.route('/merchant/lock')
-    .post(service.security.merchantLock);    
+    .post(service.security.merchantLock);
 router.route('/merchant/openRange')
     .get(service.security.findOpenRange)
     .post(service.security.createOpenRange);
@@ -166,7 +167,15 @@ router.route('/cart/deliver/:id')
 
 app.use('/api', router);
 
-
+app.get('/logout', function (req, res) {
+    req.session.destroy(function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.status(200).end();
+        }
+    });
+});
 
 app.use(logErrors);
 app.use(errorHandler);
