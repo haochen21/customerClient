@@ -27,7 +27,7 @@ exports.sendMessage = function (cart) {
             templateId = UNPAIDTEMPLATE;
             data = createCanceledStr(cart);
         }
-        
+
 
         if (templateId !== '') {
             console.log('weixing message: ' + JSON.stringify(data));
@@ -81,7 +81,11 @@ function createDeliverStr(cart) {
 function createTakeStr(cart) {
     var json = {};
     json.first = {};
-    json.first.value = '尊敬的用户您好，您的订单已下单。';
+    if (cart.needPay) {
+        json.first.value = '尊敬的用户您好，您的订单已下单。';
+    } else {
+        json.first.value = '您的订单已经确认，请您按照约定的时间去现场提货付款，逾期订单将自动取消，敬请留意';
+    }
     json.first.color = '#173177';
 
     json.OrderSn = {};
@@ -103,7 +107,11 @@ function createTakeStr(cart) {
 function createCanceledStr(cart) {
     var json = {};
     json.first = {};
-    json.first.value = '您的订单未在指定时间付款，已经取消';
+    if (cart.needPay) {
+        json.first.value = '抱歉通知您：由于您没有按照预定的时间前去付款，您的订单已经自动取消，特此通知';
+    } else {
+        json.first.value = '抱歉通知您：由于您没有按照预定的时间前去提货付款，您的订单已经自动取消，特此通知';
+    }
     json.first.color = '#173177';
 
     json.ordertape = {};
@@ -114,8 +122,14 @@ function createCanceledStr(cart) {
     json.ordeID.value = cart.no;
 
     json.remark = {};
-    var payTime = moment(new Date().setTime(cart.takeEndTime));
-    json.remark.value = '现场付款订单在: ' + payTime.format('YYYY-MM-DD HH:mm:ss') + '关闭';
+
+    if (cart.needPay) {
+        var payTime = moment(new Date().setTime(cart.payTime));
+        json.remark.value = '付款订单在: ' + payTime.format('YYYY-MM-DD HH:mm:ss') + '关闭';
+    } else {
+        var takeEndTime = moment(new Date().setTime(cart.takeEndTime));
+        json.remark.value = '现场付款订单在: ' + takeEndTime.format('YYYY-MM-DD HH:mm:ss') + '关闭';
+    }
     json.remark.color = '#d9534f';
 
     return json;

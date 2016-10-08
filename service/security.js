@@ -199,6 +199,7 @@ exports.modifyCustomerPhone = function (req, res) {
             console.error("modify phone error:", err, " (status: " + err.status + ")");
             res.status(404).end();
         } else {
+            req.session.user.phone = phone;
             res.status(200).end();
         }
     });
