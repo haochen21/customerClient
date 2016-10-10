@@ -1,8 +1,14 @@
-import {User} from './User';
 import {OpenRange} from './OpenRange';
 
-export class Merchant extends User {
+export class Merchant {
 
+    id: number;
+    loginName: string;
+    name: string;
+    password: string;
+    phone: string;
+    mail: string;
+    createdOn: Date;   
     deviceNo: string;
     shortName: string;
     address: string;
@@ -13,10 +19,9 @@ export class Merchant extends User {
     imageSource: string;
     qrCode: string;
     openRanges: Array<OpenRange>;
-    
+    version: number;
     concern:boolean;
     
     constructor() {
-        super();
     }
 }

@@ -69,8 +69,8 @@ export class OrderComponent implements OnInit, OnDestroy {
 
             this.slimLoader.start();
 
-            this.securityService.findUser().then(user => {
-                this.customer = <Customer>user;
+            this.securityService.findCustomer().then(dbCustomer => {
+                this.customer = dbCustomer;
                 this.connectWebSocket();
 
                 this.refresh();

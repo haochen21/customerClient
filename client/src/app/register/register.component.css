@@ -1,0 +1,59 @@
+.header {
+    min-height: 45px;
+    background-color: #23b7e5;
+    background-image: -webkit-linear-gradient(left,#23b7e5,#51c6ea);
+    background-image: linear-gradient(90deg,#23b7e5 0,#51c6ea);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5',endColorstr='#ff51c6ea',GradientType=1);
+}
+.header-title {
+    color: #fff;
+    vertical-align: middle;
+    line-height: 45px;
+}
+.header-title > span {
+    padding-left: 10px;
+}
+.customer-register-form {
+    margin-bottom: 45px;
+    position: relative;
+}
+p.prompt {
+    color: #646464;
+    font-size: 12px;
+}
+.btn-submit {
+    background: #4cc05f;
+    color: #fff;
+    font-size: 16px;
+}
+.p0 {
+    padding: 0px!important;
+}
+.customer-register-form .input-text-box {
+    position: relative;
+}
+.customer-register-form .input-text-box i {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: #ccc;
+}
+.customer-register-form .input-text-box.input-text-box1 .form-control {
+    padding: 6px 10px 6px 18px;
+}
+.customer-register-form .input-text-box .form-control {
+    height: 44px;
+    border: 0px;
+    border-bottom: 1px solid #e9e9e9;
+    border-radius: 0px;
+    padding: 6px 96px 6px 32px;
+    box-shadow: inset 0 0px 0px rgba(0,0,0,0.075);
+}
+.info {
+  margin-left: 15px;
+  color: #c5c5c5; 
+  height: 27px;
+  font-size: 12px;
+  padding-top: 10px;
+}

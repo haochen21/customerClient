@@ -68,8 +68,8 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
         this.slimLoader.start();
 
-        this.securityService.findUser().then(user => {
-            this.customer = <Customer>user;
+        this.securityService.findCustomer().then(dbCustomer => {
+            this.customer = dbCustomer;
             this.carts = JSON.parse(localStorage.getItem('carts'));
             console.log(this.carts);
             this.form = this.formBuilder.group({

@@ -48,7 +48,7 @@ function createUnpaidStr(cart) {
     json.ordertape.value = createdOn.format('YYYY-MM-DD HH:mm:ss');
 
     json.ordeID = {};
-    json.ordeID.value = cart.no;
+    json.ordeID.value = cart.id;
 
     json.remark = {};
     var payTime = moment(new Date().setTime(cart.payTime));
@@ -65,7 +65,7 @@ function createDeliverStr(cart) {
     json.first.color = '#173177';
 
     json.keyword1 = {};
-    json.keyword1.value = cart.no;
+    json.keyword1.value = cart.id;
 
     json.keyword2 = {};
     var updatedOn = moment(new Date().setTime(cart.updatedOn));
@@ -89,7 +89,7 @@ function createTakeStr(cart) {
     json.first.color = '#173177';
 
     json.OrderSn = {};
-    json.OrderSn.value = cart.no;
+    json.OrderSn.value = cart.id;
 
     json.OrderStatus = {};
     json.OrderStatus.value = '待取货';
@@ -119,7 +119,6 @@ function createCanceledStr(cart) {
     json.ordertape.value = createdOn.format('YYYY-MM-DD HH:mm:ss');
 
     json.ordeID = {};
-    json.ordeID.value = cart.no;
 
     json.remark = {};
 

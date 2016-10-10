@@ -51,13 +51,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.slimLoader.start();
 
-        this.securityService.findUser().then(user => {
-            this.customer = <Customer>user;
+        this.securityService.findCustomer().then(dbCustomer => {
+            this.customer = dbCustomer;
 
             this.sub = this.route.params.subscribe(params => {
                 let merchantId: number = +params['merchantId'];
-                this.securityService.findUserById(merchantId).then(merchant => {
-                    this.merchant = <Merchant>merchant;
+                this.securityService.findMerchantById(merchantId).then(dbMerchant => {
+                    this.merchant = dbMerchant;
 
                     this.storeService.findCategoryByMerchantId(this.merchant.id).then(value => {
                         this.categorys = value;

@@ -26,10 +26,10 @@ router.get('/callback', function (req, res) {
   console.log('----weixin callback -----')
   var code = req.query.code;
 
-  if (req.session && req.session.user) {
+  if (req.session && req.session.customer) {
     console.log('----weixin session exist------');
     // if phone_number exist,go home page
-    if (req.session.user.phone) {
+    if (req.session.customer.phone) {
       res.redirect('/?#/portal');
     } else {
       res.redirect('/?#/modifyphone');
@@ -46,7 +46,7 @@ router.get('/callback', function (req, res) {
       console.log('token=' + accessToken);
       console.log('openid=' + openid);
 
-      securityService.findUserByOpenId(openid, function (err, user) {
+      securityService.findCustomerByOpenId(openid, function (err, user) {
         console.log('微信回调后,返回的user = ' + user);
         if (err || user === null) {
           console.log('user is not exist.');
@@ -72,12 +72,11 @@ router.get('/callback', function (req, res) {
 
             securityService.createCustomerByWeixin(_user, function (err, result) {
               if (err) {
-                console.log('Customer save error ....' + err);
+                console.log('customer save error ....' + err);
               } else {
-                console.log('Customer save sucess ....' + result);
-                console.log(result);
+                console.log('Customer save sucess ....' + JSON.stringify(result));
                 req.session.auth = true;
-                req.session.user = JSON.parse(result);
+                req.session.customer = result;
                 res.redirect('/?#/modifyphone');
               }
             });
@@ -86,9 +85,9 @@ router.get('/callback', function (req, res) {
         } else {
           console.log('根据openid查询，用户已经存在');
           req.session.auth = true;
-          req.session.user = user;
+          req.session.customer = user;
           // if phone_number exist,go home page
-          if (user.phone) {
+          if (customer.phone) {
             res.redirect('/?#/portal');
           } else {
             res.redirect('/?#/modifyphone');
@@ -100,22 +99,3 @@ router.get('/callback', function (req, res) {
 });
 
 module.exports = router;
-
-const fakeData = {
-  data: {
-    "access_token": "ACCESS_TOKEN",
-    "expires_in": 7200,
-    "refresh_token": "REFRESH_TOKEN",
-    "openid": "111212121",
-    "scope": "SCOPE"
-  }
-};
-
-const fakeUser = {
-  openid: '111212121',
-  nickname: 'xiaomian',
-  city: '重庆',
-  province: '',
-  country: '',
-  headimgurl: ''
-};

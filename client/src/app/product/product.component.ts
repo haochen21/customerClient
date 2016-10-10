@@ -51,14 +51,14 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.slimLoader.start();
-        this.securityService.findUser().then(user => {
-            this.customer = <Customer>user;
+        this.securityService.findCustomer().then(dbCustomer => {
+            this.customer = dbCustomer;
 
             this.sub = this.route.params.subscribe(params => {
                 let merchantId = +params['merchantId'];
                 let id = +params['id'];
-                this.securityService.findUserById(merchantId).then(merchant => {
-                    this.merchant = <Merchant>merchant;
+                this.securityService.findMerchantById(merchantId).then(dbMerchant => {
+                    this.merchant = dbMerchant;
                     this.storeService.findProduct(id).then(value => {
                         this.product = value;
                         console.log(this.product);

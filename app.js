@@ -33,8 +33,7 @@ app.use(expressSession({
         db: 1,
         logErrors: true
     }),
-    secret: '1234567890QWERTY',
-    cookie: {maxAge: 1800000},
+    secret: '1234567890QWERTY',    
     resave: false,
     saveUninitialized: false
 }));
@@ -43,12 +42,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-
-var config = {
-    token: 'csyAh8MuCS2D9t5CE5tA',
-    encodingAESKey: 'NxNOSOHzcjQEbdRO1smbbChtPVQEELTW5foj62UptTS',
-    corpId: 'gh_869f79b99915'
-};
 
 app.use('/weixin', weixin);
 
@@ -67,13 +60,8 @@ function errorHandler(err, req, res, next) {
 
 var router = express.Router();
 
-router.use('/user/*', checkLogin);
-router.use('/cart/*', checkLogin);
-router.use('/product/*', checkLogin);
-router.use('/customer/*', checkLogin);
-
 function checkLogin(req, res, next) {
-    if (req.session && req.session.user) {
+    if (req.session && req.session.customer) {
         return next();
     } else {
         res.status(401).end();
@@ -84,62 +72,35 @@ router.route('/login')
     .post(service.security.login);
 router.route('/loginNameExists/:loginName')
     .get(service.security.loginNameExists);
-router.route('/deviceExists/:deviceNo')
-    .get(service.security.deviceExists);
 router.route('/cardExists/:cardNo')
     .get(service.security.cardExists);
-router.route('/user')
-    .get(service.security.findUser);
-router.route('/user/:id')
-    .get(service.security.findUserById);
-router.route('/merchant')
-    .post(service.security.createMerchant)
-    .put(service.security.modifyMerchant);
-router.route('/merchant/name/:name')
-    .get(service.security.findMechantByName);
+router.route('/phoneExists/:phone')
+    .get(service.security.phoneExists);    
 router.route('/customer')
+    .get(service.security.findCustomer)
     .post(service.security.createCustomer)
     .put(service.security.modifyCustomer);
-router.route('/customer/modifyPhone', checkLogin)
+router.route('/modifyPhone', checkLogin)
     .put(service.security.modifyCustomerPhone);
-router.route('/customer/merchant')
+router.route('/merchant/id/:id')
+    .get(service.security.findMerchantById);
+router.route('/merchant')
+    .all(checkLogin)
     .get(service.security.findMechantsOfCustomer)
     .post(service.security.saveMerchantsOfCustomer);
-router.route('/customer/merchant/size')
+router.route('/merchant/name/:name')
+    .get(service.security.findMechantByName);
+router.route('/merchant/size')
     .get(service.security.countMechantsOfCustomer)
 router.route('/password', checkLogin)
     .put(service.security.modifyPassword);
-router.route('/merchant/open')
-    .put(service.security.modifyOpen);
-router.route('/merchant/qrCode')
-    .put(service.security.updateMerchantQrCode);
-router.route('/merchant/lock')
-    .post(service.security.merchantLock);
-router.route('/merchant/openRange')
-    .get(service.security.findOpenRange)
-    .post(service.security.createOpenRange);
 router.route('/merchant/openRange/:id')
     .get(service.security.findOpenRangeByMerchantId);
 
-router.route('/category')
-    .post(service.store.createCategory)
-    .put(service.store.modifyCategory);
-router.route('/category/:id')
-    .get(service.store.findCategory)
-    .delete(service.store.deleteCategory);
-
-router.route('/category/find/merchant')
-    .get(service.store.findCategoryByMerchant);
 router.route('/category/find/merchant/:merchantId')
     .get(service.store.findCategoryByMerchantId);
-
-router.route('/product')
-    .post(service.store.createProduct)
-    .put(service.store.modifyProduct);
 router.route('/product/:id')
     .get(service.store.findProduct);
-router.route('/product/find/merchant')
-    .get(service.store.findProductByMerchant);
 router.route('/product/find/merchant/:merchantId')
     .get(service.store.findProductByMerchantId);
 

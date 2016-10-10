@@ -43,8 +43,8 @@ export class MyComponent implements OnInit, OnDestroy {
 
     document.body.style.backgroundColor = '#f5f5f5';
 
-    this.securityService.findUser().then(user => {
-      this.customer = <Customer>user;
+    this.securityService.findCustomer().then(dbCustomer => {
+      this.customer = dbCustomer;
       this.statCartNumber();
       this.statMerchantNumber();
       this.slimLoader.complete();

@@ -36,16 +36,11 @@ exports.initialize = function (io) {
                 if (cartSubscribers.length > 0) {
                     for (var subscriber in cartSubscribers) {
                         console.log('cartSubscriber id is: ' + cartSubscribers[subscriber].id+',type is: '+cartSubscribers[subscriber].type);
-                        var userId = 0;
-                        if (cartSubscribers[subscriber].type === 'M') {
-                            userId = cartJson.merchant.id;
-                        } else if (cartSubscribers[subscriber].type === 'C') {
-                            userId = cartJson.customer.id;
-                        }
-                        console.log('user id is: '+userId);
-                        if (userId === cartSubscribers[subscriber].id) {
+                        var customerId = cartJson.customer.id;
+                        console.log('user customer is: '+customerId);
+                        if (customerId === cartSubscribers[subscriber].id) {
                             console.log('cart no is:'+cartJson.no+',stauts is: '+cartJson.status);
-                            if (cartJson.status === 3 || cartJson.status === 4) {
+                            if (cartJson.status === 3 || cartJson.status === 4 || cartJson.status === 5) {
                                 var roomName = 'ticket-message-' + cartSubscribers[subscriber].id;
                                 console.log("roomName= " + roomName);
                                 if (io.sockets.adapter.rooms[roomName]) {

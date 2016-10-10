@@ -23,6 +23,7 @@ export class ValidationService {
             'invalidCurrency': '价格格式不正确',
             'invalidNumber': '数量格式不正确',
             'invalidTime': '时间格式不正确',
+            'existPhone': '手机号码已存在',
             'minlength': `最小长度 ${validatorValue.requiredLength}`,
             'maxlength': `最大长度 ${validatorValue.requiredLength}`
         };
@@ -50,8 +51,8 @@ export class ValidationService {
                 });
         });
     }
-
-    static deviceExists(control: FormControl) {
+    
+    static phoneExists(control: FormControl) {
         // Manually inject Http
         let http = ValidationService.getHttp();
         if (control.value === '') {
@@ -60,13 +61,13 @@ export class ValidationService {
             });
         } else {
             return new Promise(resolve => {
-                http.get('api/deviceExists/' + control.value)
+                http.get('api/phoneExists/' + control.value)
                     .toPromise()
                     .then(response => {
                         console.log(response.json());
                         let result = response.json();
-                        if (!result.exist) {
-                            resolve({ 'invalidDeviceNo': true });
+                        if (result.exist) {
+                            resolve({ 'existPhone': true });
                         } else {
                             resolve(null);
                         }

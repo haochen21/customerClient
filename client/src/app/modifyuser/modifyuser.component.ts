@@ -34,7 +34,7 @@ export class ModifyUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.securityService.findUser().then(user => {
+    this.securityService.findCustomer().then(user => {
       this.customer = <Customer>user;
       console.log(user);
       (<FormControl>this.form.controls['loginName']).setValue(this.customer.loginName);

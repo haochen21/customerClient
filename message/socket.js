@@ -5,36 +5,36 @@ exports.initialize = function (io) {
     io.on('connection', function (socket) {
 
         socket.on('disconnect', function () {
-            messageSubscribers[socket.user.id].logNum = messageSubscribers[socket.user.id].logNum - 1;
-            if (messageSubscribers[socket.user.id].logNum === 0) {
-                delete messageSubscribers[socket.user.id];
-                console.log('client disconnect,id is: ' + socket.user.id + ',name is: ' + socket.user.loginName + ',time is: 0 ');
+            messageSubscribers[socket.customer.id].logNum = messageSubscribers[socket.customer.id].logNum - 1;
+            if (messageSubscribers[socket.customer.id].logNum === 0) {
+                delete messageSubscribers[socket.customer.id];
+                console.log('client disconnect,id is: ' + socket.customer.id + ',name is: ' + socket.customer.loginName + ',time is: 0 ');
             } else {
-                console.log('client disconnect,id is: ' + socket.user.id + ',name is: ' + socket.user.loginName + ',time is: ' + messageSubscribers[socket.user.id].logNum);
+                console.log('client disconnect,id is: ' + socket.customer.id + ',name is: ' + socket.customer.loginName + ',time is: ' + messageSubscribers[socket.customer.id].logNum);
             }
         });
 
-        socket.on("set_user", function (data) {
-            socket.user = data;
-            if (messageSubscribers[socket.user.id]) {
-                messageSubscribers[socket.user.id].logNum = messageSubscribers[socket.user.id].logNum + 1;
+        socket.on("set_customer", function (data) {
+            socket.customer = data;
+            if (messageSubscribers[socket.customer.id]) {
+                messageSubscribers[socket.customer.id].logNum = messageSubscribers[socket.customer.id].logNum + 1;
             } else {
                 data.logNum = 1;
-                messageSubscribers[socket.user.id] = data;
+                messageSubscribers[socket.customer.id] = data;
             }
             // one room per user
-            socket.join('ticket-message-' + socket.user.id);
-            console.log('client join,id is: ' + data.id + ',loginName is: ' + data.loginName + ',time is: ' + messageSubscribers[socket.user.id].logNum);
+            socket.join('ticket-message-' + socket.customer.id);
+            console.log('client join,id is: ' + data.id + ',loginName is: ' + data.loginName + ',time is: ' + messageSubscribers[socket.customer.id].logNum);
         });
     });
 };
 
 exports.getCartSubscribers = function () {
     var subscribers = [];
-    for (var userId in messageSubscribers) {
-        if (messageSubscribers.hasOwnProperty(userId)) {
-            var user = messageSubscribers[userId];
-            subscribers.push(user);
+    for (var customerId in messageSubscribers) {
+        if (messageSubscribers.hasOwnProperty(customerId)) {
+            var customer = messageSubscribers[customerId];
+            subscribers.push(customer);
         }
     }
     return subscribers;

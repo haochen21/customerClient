@@ -1,10 +1,16 @@
-import {User} from './User';
+export class Customer {
 
-export class Customer extends User {
-
+    id: number;
+    loginName: string;
+    name: string;
+    password: string;
+    phone: string;
+    mail: string;
+    createdOn: Date;
     cardNo: string;
+    version: number;
 
     constructor() {
-        super();
+       
     }
 }

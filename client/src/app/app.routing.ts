@@ -6,6 +6,7 @@ import { NoContent } from './core/no-content';
 export const routes: Routes = [
   { path: '', redirectTo: 'portal', pathMatch: 'full' },  
   { path: 'login', loadChildren: 'app/login/login.module#LoginModule' },
+  { path: 'register', loadChildren: 'app/register/register.module#RegisterModule' },
   { path: 'order', loadChildren: 'app/order/order.module#OrderModule' },
   { path: 'product', loadChildren: 'app/product/product.module#ProductModule' },
   { path: 'cart', loadChildren: 'app/cart/cart.module#CartModule' },
