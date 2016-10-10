@@ -41,26 +41,30 @@ export class MerchantComponent implements OnInit, OnDestroy {
 
     }
 
-    onSubmit() {
-        let name = this.form.value.name;
-        this.securityService.findMechantByName(name).then(result => {
-            this.merchants = result;           
-            for (let m of this.merchants) {
-                m.concern = false;
-                for (let cm of this.choosedMerchants) {
-                    if (m.id === cm.id) {
-                        m.concern = true;
-                        break;
+    valuechange(newValue) {
+        if (newValue === '') {
+            this.merchants = [];
+        } else if (newValue.length >= 2) {
+            this.securityService.findMechantByName(newValue).then(result => {
+                this.merchants = result;
+                for (let m of this.merchants) {
+                    m.concern = false;
+                    for (let cm of this.choosedMerchants) {
+                        if (m.id === cm.id) {
+                            m.concern = true;
+                            break;
+                        }
                     }
                 }
-            }
-            console.log(this.merchants);
-        }).catch(error => {
-            console.log(error)
-        });
+                console.log(this.merchants);
+            }).catch(error => {
+                console.log(error);
+            });
+        }
+
     }
 
-    addConcern(merchant: Merchant) {        
+    addConcern(merchant: Merchant) {
         let merchantIds: Array<number> = new Array();
         merchantIds.push(merchant.id);
         for (let cm of this.choosedMerchants) {

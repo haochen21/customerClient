@@ -4,12 +4,11 @@
             <div class="form-group row">
                 <label class="col-sm-2 form-control-label">店铺名称</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" formControlName="name">
+                    <input type="text" class="form-control" formControlName="name" (ngModelChange)="valuechange($event)">
                     <control-messages [control]="form.controls.name"></control-messages>
-                    <div class="info" *ngIf="form.controls.name.pristine">店铺名称长度3-20个字符</div>
+                    <div class="info" *ngIf="form.controls.name.pristine">店铺名称长度2-20个字符</div>
                 </div>
             </div>
-            <button class="btn btn-submit btn-block" [disabled]="!form.valid" md-raised-button color="warn">查&nbsp;询</button>
         </form>
     </div>
     <div class="show-panel">
