@@ -23,7 +23,7 @@ export class ModifyPhoneComponent implements OnInit {
     private router: Router) {
 
     this.form = formBuilder.group({
-      'phone': ['', [Validators.required, ValidationService.phoneValidator]]
+      'phone': ['', [Validators.required, ValidationService.phoneValidator],ValidationService.phoneExists]
     });
   }
 

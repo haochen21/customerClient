@@ -12,6 +12,7 @@ export class Product {
     unitsInOrder: number;
     infinite: boolean;
     needPay: boolean;
+    openRange: boolean;
     payTimeLimit: number;
     takeTimeLimit: number;
     imageSource: string;
