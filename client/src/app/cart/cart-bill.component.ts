@@ -128,6 +128,16 @@ export class CartBillComponent implements OnInit, OnDestroy {
                 takeTimeLimit = product.takeTimeLimit;
             }
         }
+
+        // use current merchant opentime range
+        let userCurrentOpenTime: boolean = true;
+        for (let cartItem of this.cart.cartItems) {
+            let product: Product = cartItem.product;
+            if (!product.openRange) {
+                userCurrentOpenTime = false;
+            }
+        }
+
         let now: moment.Moment = moment(new Date());
         now = now.add(takeTimeLimit, 'minutes');
         console.log(now.toDate());
@@ -141,6 +151,12 @@ export class CartBillComponent implements OnInit, OnDestroy {
             endDateTime = endDateTime.hours(endTimes[0]).minutes(endTimes[1]).seconds(endTimes[2]).milliseconds(0);
 
             if (now.isBefore(beginDateTime)) {
+                this.cartTakeTime.push({
+                    takeBeginTime: beginDateTime.toDate(),
+                    takeEndTime: endDateTime.toDate(),
+                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                });
+            } else if (now.isBetween(beginDateTime, endDateTime) && userCurrentOpenTime) {
                 this.cartTakeTime.push({
                     takeBeginTime: beginDateTime.toDate(),
                     takeEndTime: endDateTime.toDate(),
