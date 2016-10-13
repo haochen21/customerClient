@@ -43,7 +43,7 @@ router.get('/jsconfig', function (req, res) {
  **/
 router.post('/info', function (req, res) {
     let cart = req.body.cart;
-    var user = req.session.user;
+    var customer = req.session.customer;
 
     var clientIp = getClientIp4(req);
 
@@ -53,7 +53,7 @@ router.post('/info', function (req, res) {
         out_trade_no: cart.no, //商家订单号 
         total_fee: cart.totalPrice * 100,//商品金额,以分为单位   
         spbill_create_ip: clientIp,//订单生成的机器IP，指用户浏览器端IP  
-        openid: user.openId,
+        openid: customer.openId,
         trade_type: 'JSAPI'
     };
     console.log('order: ' + JSON.stringify(order));

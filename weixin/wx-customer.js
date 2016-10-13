@@ -46,18 +46,16 @@ router.get('/callback', function (req, res) {
       console.log('token=' + accessToken);
       console.log('openid=' + openid);
 
-      securityService.findCustomerByOpenId(openid, function (err, user) {
-        console.log('微信回调后,返回的user = ' + user);
-        if (err || user === null) {
-          console.log('user is not exist.');
+      securityService.findCustomerByOpenId(openid, function (err, customer) {
+        console.log('微信回调后,返回的customer = ' + JSON.stringify(customer));
+        if (err || customer === null) {
+          console.log('customer is not exist.');
 
           client.getUser(openid, function (err, result) {
-            console.log('use weixin api get user,err: ' + err);
-            console.log('use weixin api get user,result: ' + result);
+            console.log('weixin api get user,err: ' + err);
+            console.log('weixin api get user,result: ' + JSON.stringify(result));
 
             var oauth_user = result;
-
-            //oauth_user = fakeUser;
 
             var _user = {};
             _user.openId = oauth_user.openid;
@@ -85,8 +83,7 @@ router.get('/callback', function (req, res) {
         } else {
           console.log('根据openid查询，用户已经存在');
           req.session.auth = true;
-          req.session.customer = user;
-          // if phone_number exist,go home page
+          req.session.customer = customer;
           if (customer.phone) {
             res.redirect('/?#/portal');
           } else {
