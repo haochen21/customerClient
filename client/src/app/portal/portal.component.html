@@ -18,6 +18,7 @@
         </div>
         <div class="media-box-body clearfix">
           <div class="body-container">
+            <button type="button" class="btn btn-warning btn-sm cancel-care" (click)="cancelConcern($event,m)"><i class="fa fa-trash"></i></button>
             <p class="m0">{{m.shortName}}</p>
             <p class="m0 text-muted">
               <small>全称 -- {{m.name}}</small>
@@ -25,7 +26,6 @@
             <p class="m0 text-muted">
               <small>地址 -- {{m.address}}</small>
             </p>
-            <button type="button" class="btn btn-warning btn-sm cancel-care" (click)="cancelConcern($event,m)">取消关注商户</button>
           </div>
         </div>
       </div>

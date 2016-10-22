@@ -41,6 +41,8 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
     nextDay: boolean = false;
 
+    productOpenTimeNoOverlap: boolean = false;
+
     selectNextDay: boolean = false;
 
     form: FormGroup;
@@ -84,15 +86,39 @@ export class CartBillComponent implements OnInit, OnDestroy {
                     }
                 }
                 console.log(this.cart);
-                this.securityService.findOpenRangesByMerchantId(merchantId).then(value => {
-                    this.covertTimeToDate(value.openRanges);
+                let openRanges: Array<OpenRange> = new Array<OpenRange>();
+                for (let cartItem of this.cart.cartItems) {
+                    let product: Product = cartItem.product;
+                    for (let range of product.openRanges) {
+                        let exist: boolean = false;
+                        for (let openRange of openRanges) {
+                            if (range.id === openRange.id) {
+                                exist = true;
+                                openRange.index = openRange.index++;
+                                break;
+                            }
+                        }
+                        if (!exist) {
+                            range.index = 1;
+                            let beginDate: moment.Moment = moment(range.beginTime.toString(), "HH:mm:ss");
+                            let endDate: moment.Moment = moment(range.endTime.toString(), "HH:mm:ss");
+
+                            range.beginTime = beginDate.toDate();
+                            range.endTime = endDate.toDate();
+                            openRanges.push(range);
+                        }
+                    }
+                }
+                openRanges = openRanges.filter(openRange => openRange.index === this.cart.cartItems.length);
+                if (openRanges.length === 0) {
+                    this.productOpenTimeNoOverlap = true;
+                } else {
+                    this.covertTimeToDate(openRanges);
                     if (this.cartTakeTime.length === 0) {
                         this.nextDay = true;
-                        this.covertNextTimeToDate(value.openRanges);
+                        this.covertNextTimeToDate(openRanges);
                     }
-                }).catch(error => {
-                    console.log(error);
-                });
+                }
             });
             this.slimLoader.complete();
         }).catch(error => {
@@ -143,12 +169,12 @@ export class CartBillComponent implements OnInit, OnDestroy {
         console.log(now.toDate());
         for (let openRange of openRanges) {
             let beginDateTime: moment.Moment = moment(new Date());
-            let beginTimes: any = openRange.beginTime.toString().split(':');
-            beginDateTime = beginDateTime.hours(beginTimes[0]).minutes(beginTimes[1]).seconds(beginTimes[2]).milliseconds(0);
+            beginDateTime = beginDateTime.hours(openRange.beginTime.getHours()).minutes(openRange.beginTime.getMinutes()).seconds(openRange.beginTime.getSeconds()).milliseconds(0);
 
+            let beginTimes = beginDateTime.format('HH:mm:ss').split(':');
             let endDateTime: moment.Moment = moment(new Date());
-            let endTimes: any = openRange.endTime.toString().split(':');
-            endDateTime = endDateTime.hours(endTimes[0]).minutes(endTimes[1]).seconds(endTimes[2]).milliseconds(0);
+            endDateTime = endDateTime.hours(openRange.endTime.getHours()).minutes(openRange.endTime.getMinutes()).seconds(openRange.endTime.getSeconds()).milliseconds(0);
+            let endTimes = endDateTime.format('HH:mm:ss').split(':');
 
             if (now.isBefore(beginDateTime)) {
                 this.cartTakeTime.push({
@@ -179,12 +205,11 @@ export class CartBillComponent implements OnInit, OnDestroy {
     covertNextTimeToDate(openRanges: Array<OpenRange>) {
         for (let openRange of openRanges) {
             let beginDateTime: moment.Moment = moment(new Date()).add(1, 'd');
-            let beginTimes: any = openRange.beginTime.toString().split(':');
-            beginDateTime = beginDateTime.hours(beginTimes[0]).minutes(beginTimes[1]).seconds(beginTimes[2]).milliseconds(0);
-
+            beginDateTime = beginDateTime.hours(openRange.beginTime.getHours()).minutes(openRange.beginTime.getMinutes()).seconds(openRange.beginTime.getSeconds()).milliseconds(0);
+            let beginTimes = beginDateTime.format('HH:mm:ss').split(':');
             let endDateTime: moment.Moment = moment(new Date()).add(1, 'd');
-            let endTimes: any = openRange.endTime.toString().split(':');
-            endDateTime = endDateTime.hours(endTimes[0]).minutes(endTimes[1]).seconds(endTimes[2]).milliseconds(0);
+            endDateTime = endDateTime.hours(openRange.endTime.getHours()).minutes(openRange.endTime.getMinutes()).seconds(openRange.endTime.getSeconds()).milliseconds(0);
+            let endTimes = endDateTime.format('HH:mm:ss').split(':');
 
             this.cartTakeTime.push({
                 takeBeginTime: beginDateTime.toDate(),

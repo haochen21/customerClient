@@ -1,6 +1,7 @@
 import {Merchant} from './Merchant';
 import {Category} from './Category';
 import {ProductStatus} from './ProductStatus';
+import {OpenRange} from './OpenRange';
 
 export class Product {
 
@@ -21,6 +22,7 @@ export class Product {
     status: ProductStatus;
     category: Category;
     merchant: Merchant;
+    openRanges: Array<OpenRange>;
     version: number;    
     
     takeNumber: number;
