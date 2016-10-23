@@ -62,16 +62,11 @@ export class ProductComponent implements OnInit, OnDestroy {
                     this.storeService.findProduct(id).then(value => {
                         this.product = value;
                         console.log(this.product);
-                        this.securityService.findOpenRangesByMerchantId(this.merchant.id).then(value => {
-                            this.covertTimeToDate(value.openRanges);
-                            if (this.cartTakeTime.length === 0) {
-                                this.nextDay = true;
-                                this.covertNextTimeToDate(value.openRanges);
-                            }
-                        }).catch(error => {
-                            console.log(error);
-                            this.slimLoader.complete();
-                        });
+                        this.covertTimeToDate(value.openRanges);
+                        if (this.cartTakeTime.length === 0) {
+                            this.nextDay = true;
+                            this.covertNextTimeToDate(value.openRanges);
+                        }
                     }).catch(error => {
                         console.log(error);
                         this.slimLoader.complete();
@@ -197,6 +192,12 @@ export class ProductComponent implements OnInit, OnDestroy {
             endDateTime = endDateTime.hours(endTimes[0]).minutes(endTimes[1]).seconds(endTimes[2]).milliseconds(0);
 
             if (now.isBefore(beginDateTime)) {
+                this.cartTakeTime.push({
+                    takeBeginTime: beginDateTime.toDate(),
+                    takeEndTime: endDateTime.toDate(),
+                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                });
+            } else if (now.isBetween(beginDateTime, endDateTime) && this.product.openRange) {
                 this.cartTakeTime.push({
                     takeBeginTime: beginDateTime.toDate(),
                     takeEndTime: endDateTime.toDate(),

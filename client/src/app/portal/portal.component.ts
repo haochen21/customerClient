@@ -49,7 +49,7 @@ export class PortalComponent implements OnInit, OnDestroy {
 
         }).catch(error => {
             console.log(error);
-            if(error.status && error.status === 401){
+            if (error.status && error.status === 401) {
                 this.router.navigate(['/login']);
             }
         });
@@ -102,7 +102,9 @@ export class PortalComponent implements OnInit, OnDestroy {
     }
 
     goToMerchant(merchant: Merchant) {
-        this.router.navigate(['/category', merchant.id]);
+        if (merchant.open) {
+            this.router.navigate(['/category', merchant.id]);
+        }
     }
 
     cancelConcern(event, merchant: Merchant) {
