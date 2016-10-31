@@ -4,7 +4,7 @@ export class CartFilter {
     
     no: string;    
     merchantId: number;
-    customerId: number;
+    customerIds: Array<number>;
     statuses: Array<CartStatus>;
     needPay: boolean;  
     createTimeBefore: Date; 

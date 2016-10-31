@@ -61,7 +61,9 @@ export class MyComponent implements OnInit, OnDestroy {
   statCartNumber() {
     let filter: CartFilter = new CartFilter();
 
-    filter.customerId = this.customer.id;
+    let customerIds = new Array<number>();
+    customerIds.push(this.customer.id);
+    filter.customerIds = customerIds;
 
     let beginDate: moment.Moment = moment(new Date());
     beginDate.hours(0).minutes(0).seconds(0).milliseconds(0);

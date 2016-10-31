@@ -21,7 +21,7 @@ import { CartFilter } from '../model/CartFilter';
 
 
 @Component({
-    selector: 'ticket-order',   
+    selector: 'ticket-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.css']
 })
@@ -37,8 +37,8 @@ export class OrderComponent implements OnInit, OnDestroy {
 
     connection: any;
 
-    selectedTab: number = 0;  
-    
+    selectedTab: number = 0;
+
     tabs = [
         { label: '待付款' },
         { label: '待提货' },
@@ -82,7 +82,7 @@ export class OrderComponent implements OnInit, OnDestroy {
         });
 
         this.weixinService.getJsConfig().then(data => {
-            wx.config(data);            
+            wx.config(data);
         }).catch(error => {
             console.log(error);
             this.slimLoader.complete();
@@ -119,7 +119,9 @@ export class OrderComponent implements OnInit, OnDestroy {
     refresh() {
         this.filter = new CartFilter();
 
-        this.filter.customerId = this.customer.id;
+        let customerIds = new Array<number>();
+        customerIds.push(this.customer.id);
+        this.filter.customerIds = customerIds;
 
         let statuses: Array<CartStatus> = new Array<CartStatus>();
         if (this.selectedTab === 0) {
@@ -191,11 +193,11 @@ export class OrderComponent implements OnInit, OnDestroy {
                 success: function (res) {
                     if (res.errMsg == "chooseWXPay:ok") {
                         //支付成功                                         
-                       _thisObj.selectedTab = 1;
-                       _thisObj.refresh();
+                        _thisObj.selectedTab = 1;
+                        _thisObj.refresh();
                     } else {
                         alert('支付失败');
-                    }                    
+                    }
                 },
                 cancel: function (res) {
                 }
