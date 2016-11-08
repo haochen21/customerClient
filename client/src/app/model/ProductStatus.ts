@@ -1,4 +1,5 @@
 export enum ProductStatus {
     ONLINE,
-    OFFLINE
+    OFFLINE,
+    DELETE
 };

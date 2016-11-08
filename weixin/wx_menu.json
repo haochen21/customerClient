@@ -6,14 +6,9 @@
       "url": "http://www.km086.com/"
     },
     {
-      "name": "菜单",
-      "sub_button": [
-        {
-          "type": "view",
-          "name": "进入商城",
-          "url": "http://shop.km086.com/weixin/customer"
-        }
-      ]
+      "type": "view",
+      "name": "进入商城",
+      "url": "http://shop.km086.com/weixin/customer"
     }
   ]
 }
