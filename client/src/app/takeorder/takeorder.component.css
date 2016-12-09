@@ -1,0 +1,128 @@
+.takeorder-container {
+    font: 12px/1.5 "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB",\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
+    color: #333;
+    outline: 0;
+    top: 0;
+    left: 0px;
+    right: 0px;
+    bottom: 50px;
+    margin-left: 0;
+    margin-right: 0;    
+    position: absolute;
+    overflow: auto;
+}
+.header {
+    min-height: 35px;
+    padding: 10px 5px 5px 0;
+    background-color: #23b7e5;
+    background-image: -webkit-linear-gradient(left,#23b7e5,#51c6ea);
+    background-image: linear-gradient(90deg,#23b7e5 0,#51c6ea);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5',endColorstr='#ff51c6ea',GradientType=1);
+}
+.header.row {
+    display: block;
+}
+.header-title {
+    color: #fff;
+    vertical-align: middle;
+    line-height: 35px;
+}
+.header-title > span {
+    padding-left: 10px;
+}
+.alert {
+    margin-top: 15px;
+}
+.notification-body {
+    padding: 0 0 0 3px;
+    margin: 0;
+    list-style: none;
+}
+.notification-body > li {
+    border-bottom: 1px solid #E9E9E9;
+    position: relative;
+}
+.notification-body > li > span {
+    background: #fff;
+    display: block;
+    min-height: 25px;
+    overflow: hidden;
+    padding: 8px 10px 13px;
+    white-space: normal;
+}
+.bar-holder {
+    padding: 18px 15px;
+}
+.bar-holder > p > strong {
+    padding-right: 5px;
+}
+.bar-holder:first-child {
+    border-top: none;
+}
+.bar-detail {
+    margin-top: 10px;
+}
+.semi-bold {
+    font-weight: 400!important;
+}
+.no-padding {
+    padding: 0!important;
+}
+.margin-top-10 {
+    margin-top: 10px!important;
+}
+.margin-bottom-5 {
+    margin-bottom: 5px!important;
+}
+.padding-right-10 {
+    padding-right: 10px;
+}
+.padding-right-5 {
+    padding-right: 5px;
+}
+.note {  
+    padding: 12px 2px 0px 2px;
+    font-size: 14px;
+    line-height: 15px;
+}
+.note > span:first-child {
+    margin-right: 10px;
+}
+.bar-btn {
+    float: right;
+    margin-top: 30px;
+    font-size: 16px;
+}
+table {
+    margin-top: 10px;
+    margin-bottom: 0px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+}
+.table-fixed {
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+}
+.table-fixed td {
+   white-space: -o-pre-wrap;
+   word-wrap: break-word;
+   white-space: pre-wrap;
+   white-space: -moz-pre-wrap;
+   white-space: -pre-wrap;
+}
+.width-30 {
+    width: 30%;
+}
+.table-bottom {
+    background-color: #f5f5f5;
+    float:right;
+}
+table tr.dashed td {
+    border-top: 1px dashed #cccccc;
+}
+.bill-btn {
+    margin: 10px 0px 0 0;
+    float: right;
+}

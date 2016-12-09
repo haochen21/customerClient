@@ -207,18 +207,5 @@ export class OrderComponent implements OnInit, OnDestroy {
             //this.slimLoader.complete();
         });
     }
-
-    deliver(cart: Cart) {
-        this.slimLoader.start();
-        this.orderService.deliver(cart.id).then(value => {
-            console.log(value);
-            this.selectedTab = 2;
-            this.refresh();
-            this.slimLoader.complete();
-        }).catch(error => {
-            console.log(error);
-            this.slimLoader.complete();
-        });
-    }
-
+    
 }
