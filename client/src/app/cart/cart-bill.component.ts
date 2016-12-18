@@ -90,6 +90,11 @@ export class CartBillComponent implements OnInit, OnDestroy {
                 for (let cartItem of this.cart.cartItems) {
                     let product: Product = cartItem.product;
                     for (let range of product.openRanges) {
+                        let beginDate: moment.Moment = moment(range.beginTime.toString(), "HH:mm:ss");
+                        let endDate: moment.Moment = moment(range.endTime.toString(), "HH:mm:ss");
+                        range.beginTime = beginDate.toDate();
+                        range.endTime = endDate.toDate();
+
                         let exist: boolean = false;
                         for (let openRange of openRanges) {
                             if (range.id === openRange.id) {
@@ -100,16 +105,11 @@ export class CartBillComponent implements OnInit, OnDestroy {
                         }
                         if (!exist) {
                             range.index = 1;
-                            let beginDate: moment.Moment = moment(range.beginTime.toString(), "HH:mm:ss");
-                            let endDate: moment.Moment = moment(range.endTime.toString(), "HH:mm:ss");
-
-                            range.beginTime = beginDate.toDate();
-                            range.endTime = endDate.toDate();
                             openRanges.push(range);
                         }
                     }
                 }
-                openRanges = openRanges.filter(openRange => openRange.index === this.cart.cartItems.length);
+                //openRanges = openRanges.filter(openRange => openRange.index === this.cart.cartItems.length);
                 if (openRanges.length === 0) {
                     this.productOpenTimeNoOverlap = true;
                 } else {
