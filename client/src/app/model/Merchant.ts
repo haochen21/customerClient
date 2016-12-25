@@ -18,6 +18,7 @@ export class Merchant {
     takeByPhoneSuffix: boolean;
     imageSource: string;
     qrCode: string;
+    discount: number;
     openRanges: Array<OpenRange>;
     version: number;
     concern:boolean;

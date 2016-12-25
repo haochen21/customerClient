@@ -75,7 +75,8 @@ export class CartBillComponent implements OnInit, OnDestroy {
             this.carts = JSON.parse(localStorage.getItem('carts'));
             console.log(this.carts);
             this.form = this.formBuilder.group({
-                'takeTimeRange': [, [Validators.required]]
+                'takeTimeRange': [, [Validators.required]],
+                'remark': ['', [Validators.minLength(0), Validators.maxLength(255)]]
             });
             this.sub = this.route.params.subscribe(params => {
                 let merchantId = +params['merchantId']; // (+) converts string 'id' to a number
@@ -234,6 +235,7 @@ export class CartBillComponent implements OnInit, OnDestroy {
         this.orderResult = null;
         this.cart.takeBeginTime = this.form.value.takeTimeRange.takeBeginTime;
         this.cart.takeEndTime = this.form.value.takeTimeRange.takeEndTime;
+        this.cart.remark = this.form.value.remark;
 
         this.orderService.purchase(this.cart).then(value => {
             this.orderResult = value;

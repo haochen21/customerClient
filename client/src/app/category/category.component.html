@@ -18,7 +18,7 @@
                             <div class="body-container">
                                 <p class="m0">{{p.name}}</p>
                                 <p class="m0 text-muted">
-                                    <small>单价：</small><small class="green">￥{{p.unitPrice}}</small>
+                                    <small>单价：</small><small class="green">￥{{p.unitPrice * merchant.discount | numberFormatPipe}}</small>
                                 </p>
                             </div>
                         </div>

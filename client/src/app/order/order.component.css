@@ -103,3 +103,7 @@ table tr.dashed td {
     margin: 10px 0px 0 0;
     float: right;
 }
+.break-line {
+    word-wrap: break-word;
+    word-break: break-all;
+}

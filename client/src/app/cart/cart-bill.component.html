@@ -23,12 +23,12 @@
                 <div class="good-info">
                     <div class="gtitle"><b></b>{{item.name}}</div>
                     <div class="gprinum">
-                        <span class="gprice">¥{{item.unitPrice}}</span>
+                        <span class="gprice">¥{{item.unitPrice * cart.merchant.discount }}</span>
                         <span class="gnum">X&nbsp;&nbsp;{{item.quantity}}</span>
                     </div>
                 </div>
                 <div class="totalPrice">
-                    <span>¥{{item.unitPrice*item.quantity | numberFormatPipe}}</span>
+                    <span>¥{{item.unitPrice * item.quantity * cart.merchant.discount | numberFormatPipe}}</span>
                 </div>
             </div>
         </section>
@@ -38,16 +38,8 @@
             <div class="detail">
                 <ul>
                     <li class="item">
-                        <span class="pull-left">商品应付总计</span>
-                        <span class="pull-right amount">¥{{getTotalPirce() | numberFormatPipe}}</span>
-                    </li>
-                    <li class="item">
-                        <span class="pull-left">优惠</span>
-                        <span class="pull-right amount freightfree">¥0.00</span>
-                    </li>
-                    <li class="item">
                         <span class="pull-left">应付总额</span>
-                        <span class="pull-right amount">¥{{getTotalPirce() | numberFormatPipe}}</span>
+                        <span class="pull-right amount">¥{{getTotalPirce() * cart.merchant.discount | numberFormatPipe}}</span>
                     </li>
                 </ul>
             </div>
@@ -57,15 +49,15 @@
                 <div class="form-group">
                     <label class="col-sm-2 form-control-label">取货时间</label>
                     <div class="col-sm-10 text-danger" *ngIf="productOpenTimeNoOverlap">
-                        所选商品无法找到商家营业时间                     
+                        所选商品无法找到商家营业时间
                     </div>
                     <div class="col-sm-10 text-danger" *ngIf="nextDay">
                         <md-checkbox (change)="selectNextDay = !selectNextDay">
                             当天营业时间已结束,选择第二天时间段
-                        </md-checkbox>                        
+                        </md-checkbox>
                     </div>
                 </div>
-                <div class="form-group">                    
+                <div class="form-group">
                     <div class="col-sm-10" *ngIf="!nextDay || (nextDay && selectNextDay)">
                         <md-radio-group formControlName="takeTimeRange">
                             <md-radio-button *ngFor="let ctt of cartTakeTime" [value]="ctt">
@@ -76,6 +68,15 @@
                 </div>
                 <div class="form-group" *ngIf="orderResult && !orderResult.result">
                     <span class="col-xs-12 form-control-label order-error">{{orderResult.error}}</span>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 form-control-label">订单备注</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" rows="2" placeholder="订单备注" formControlName="remark"></textarea>
+                        <control-messages [control]="form.controls.remark"></control-messages>
+                        <small *ngIf="form.controls.remark.pristine">长度0-255个字符</small>
+                    </div>
                 </div>
 
                 <button md-raised-button color="warn" [disabled]="cartTakeTime.length === 0 || !form.valid || (nextDay && !selectNextDay)">提交订单</button>

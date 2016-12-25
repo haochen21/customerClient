@@ -6,7 +6,7 @@
         </div>
         <div class="card-block buy-price">
             <div class="price">
-                <strong class="strong-color">{{product.unitPrice}}</strong>
+                <strong class="strong-color">{{product.unitPrice * merchant.discount}}</strong>
                 <span class="strong-color">元</span>
             </div>
             <button md-raised-button color="warn" [disabled]="product.status === 1 || cartTakeTime.length === 0 || (!product.infinite && product.unitsInStock === 0)"

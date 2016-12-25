@@ -39,6 +39,10 @@
                     <span>支付时限：</span>
                     <span>{{cart.payTime | dateFormatPipe:"YYYY-MM-DD HH:mm:ss"}}</span>
                 </div>
+                <div class="note no-margin" *ngIf="cart.remark != null">
+                    <span>商品备注：</span>
+                    <span class="break-line">{{cart.remark}}</span>
+                </div>
 </div>
 <div class="bar-detail" *ngIf="cart.showDetail">
     <table class="table">

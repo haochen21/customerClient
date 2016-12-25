@@ -6,8 +6,8 @@ import { Merchant } from './Merchant';
 export class Cart {
 
     id: number;
-    no: string;    
-    merchant:Merchant;
+    no: string;
+    merchant: Merchant;
     customer: Customer;
     status: CartStatus;
     needPay: boolean;
@@ -20,10 +20,11 @@ export class Cart {
     takeEndTime: Date;
     createdOn: Date;
     updatedOn: Date;
+    remark: string;
     cartItems: Array<CartItem>;
-    version: number;    
-    
+    version: number;
+
     showDetail: boolean;
-    
+
     constructor() { }
 }

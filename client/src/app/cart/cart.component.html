@@ -29,14 +29,14 @@
                                 <div class="set-count">
                                     <span class="countbox">
                                         <span class="minus z-dis" (click)="minusQuality(item)"><i [class.active]="item.quantity > 1"></i></span>
-                                        <input type="text" class="ipt" [(ngModel)]="item.quantity" readonly="readonly" autocomplete="off" min="1" max="5">
-                                        <span class="plus" (click)="addQuality(item)"><i [class.disable]="item.quantity > 5"></i></span>
+                                    <input type="text" class="ipt" [(ngModel)]="item.quantity" readonly="readonly" autocomplete="off" min="1" max="5">
+                                    <span class="plus" (click)="addQuality(item)"><i [class.disable]="item.quantity > 5"></i></span>
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="product-price pull-right">
-                            <p class="price">¥<i>{{item.unitPrice}}</i></p>
+                            <p class="price">¥<i>{{item.unitPrice * cart.merchant.discount}}</i></p>
                             <p class="amount">×{{item.quantity}}</p>
                             <b class="product-remove" (click)="removeItem(cart,item)"></b>
                         </div>
@@ -46,9 +46,7 @@
             <div class="gather">
                 <span class="pull-left">已选商品<i>{{getTotalQuality(cart)}}</i>件</span>
                 <div class="rpart pull-right">
-                    <p class="tprice">商品总额：<span class="val">¥{{getTotalPirce(cart) | numberFormatPipe}}</span></p>
-                    <p class="tprice">活动优惠：<span class="val">-¥0.00</span></p>
-                    <p class="total">总计：<span class="val">¥<i class="f-fw">{{getTotalPirce(cart) | numberFormatPipe}}</i></span></p>
+                    <p class="total">商品总额：<span class="val">¥<i class="f-fw">{{getTotalPirce(cart) * cart.merchant.discount | numberFormatPipe}}</i></span></p>
                     <button md-raised-button color="warn" (click)="purchase(cart)">结算</button>
                 </div>
             </div>
