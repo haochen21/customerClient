@@ -30,6 +30,7 @@ app.use(expressSession({
     store: new RedisStore({
         host: config.redisIp,
         port: config.redisPort,
+        pass: config.redisPwd,
         db: 1,
         logErrors: true
     }),
