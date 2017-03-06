@@ -13,7 +13,7 @@
     </div>
     <div class="show-panel">
         <md-list dense>
-            <md-list-item *ngFor="let m of merchants">
+            <md-list-item *ngFor="let m of merchants | orderBy : 'name' : true">
                 <h3 md-line>{{m.shortName}}</h3>
                 <p md-line>
                     <span class="demo-secondary-text">全称 -- </span>

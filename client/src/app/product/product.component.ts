@@ -11,6 +11,7 @@ import { CartService } from '../core/cart.service';
 
 import { Customer } from '../model/Customer';
 import { Merchant } from '../model/Merchant';
+import { DiscountType } from '../model/DiscountType';
 import { Category } from '../model/Category';
 import { Cart } from '../model/Cart';
 import { CartItem } from '../model/CartItem';
@@ -131,6 +132,18 @@ export class ProductComponent implements OnInit, OnDestroy {
             return 0;
         });
         console.log(this.cartTakeTime);
+    }
+
+    getProductDiscount(item: CartItem) {
+        let price = this.product.unitPrice;
+        if (this.merchant.discountType != null) {
+            if (this.merchant.discountType == DiscountType.PERCNET) {
+                price = price * this.merchant.discount;
+            } else if (this.merchant.discountType == DiscountType.AMOUNT) {
+                price = price - this.merchant.amount;
+            }
+        }
+        return price;
     }
 
     addCart(product: Product) {

@@ -1,5 +1,5 @@
 {
-  "remoteServer":"http://120.25.90.244:8080/ticketServer",
+  "remoteServer":"http://127.0.0.1:8080/ticketServer",
   "stompBrokerUrl":"120.25.90.244",
   "redisIp":"120.25.90.244",
   "redisPort":6379,

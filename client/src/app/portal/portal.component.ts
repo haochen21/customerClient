@@ -12,7 +12,7 @@ import { Merchant } from '../model/Merchant';
 
 const URL = 'http://shop.km086.com:8080/ticketServer/security/merchant/image/';
 
-var wx = require('imports?this=>window!../../../jweixin-1.0.0.js')
+var wx = require('imports-loader?this=>window!../../../jweixin-1.0.0.js')
 
 @Component({
     selector: 'ticket-portal',

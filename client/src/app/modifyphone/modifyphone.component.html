@@ -4,7 +4,9 @@
         <md-card-content class="content">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <md-input class="full-width" placeholder="手机号" formControlName="phone"></md-input>
+                    <md-input-container class="example-full-width">
+                        <input mdInput placeholder="手机号" formControlName="phone">
+                    </md-input-container>
                     <control-messages [control]="form.controls.phone"></control-messages>
                 </div>
 

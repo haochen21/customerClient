@@ -10,6 +10,7 @@ import { CartService } from '../core/cart.service';
 
 import { Customer } from '../model/Customer';
 import { Merchant } from '../model/Merchant';
+import { DiscountType } from '../model/DiscountType';
 import { Category } from '../model/Category';
 import { Cart } from '../model/Cart';
 import { CartItem } from '../model/CartItem';
@@ -147,6 +148,18 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
     detail(product: Product) {
         this.router.navigate(['/product', { merchantId: this.merchant.id, id: product.id }]);
+    }
+
+    getProductDiscount(product: Product) {
+        let price = product.unitPrice;
+        if (this.merchant.discountType != null) {
+            if (this.merchant.discountType == DiscountType.PERCNET) {
+                price = price * this.merchant.discount;
+            } else if (this.merchant.discountType == DiscountType.AMOUNT) {
+                price = price - this.merchant.amount;
+            }
+        }
+        return price;
     }
 
     ngOnDestroy() {

@@ -6,6 +6,7 @@ export class Customer {
     password: string;
     phone: string;
     mail: string;
+    address: string;
     createdOn: Date;
     cardNo: string;
     version: number;

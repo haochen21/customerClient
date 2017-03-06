@@ -13,7 +13,7 @@ import { NavbarModule } from '../navbar/navbar.module';
 
 import { CartComponent } from './cart.component';
 import { CartBillComponent } from './cart-bill.component';
-import { routing } from './cart.routing';
+import { CartRoutingModule } from './cart.routing';
 
 
 @NgModule({
@@ -23,9 +23,9 @@ import { routing } from './cart.routing';
         RouterModule,
         ToastyModule.forRoot(),
         SlimLoadingBarModule.forRoot(),
-        MaterialModule.forRoot(),
+        MaterialModule,
         NavbarModule,
-        routing
+        CartRoutingModule
     ],
     declarations: [CartComponent,CartBillComponent]
 })

@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="product-price pull-right">
-                            <p class="price">¥<i>{{item.unitPrice * cart.merchant.discount}}</i></p>
+                            <p class="price">¥<i>{{getItemDiscount(cart,item) | numberFormatPipe}}</i></p>
                             <p class="amount">×{{item.quantity}}</p>
                             <b class="product-remove" (click)="removeItem(cart,item)"></b>
                         </div>
@@ -46,7 +46,7 @@
             <div class="gather">
                 <span class="pull-left">已选商品<i>{{getTotalQuality(cart)}}</i>件</span>
                 <div class="rpart pull-right">
-                    <p class="total">商品总额：<span class="val">¥<i class="f-fw">{{getTotalPirce(cart) * cart.merchant.discount | numberFormatPipe}}</i></span></p>
+                    <p class="total">商品总额：<span class="val">¥<i class="f-fw">{{getPayPrice(cart) | numberFormatPipe}}</i></span></p>
                     <button md-raised-button color="warn" (click)="purchase(cart)">结算</button>
                 </div>
             </div>

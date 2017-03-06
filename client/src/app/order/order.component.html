@@ -2,11 +2,10 @@
     <md-tab-group class="tab-group" [selectedIndex]="selectedTab" (selectChange)="tabChange($event)">
         <md-tab *ngFor="let tab of tabs">
             <template md-tab-label>{{tab.label}}</template>
-            <template md-tab-content>
-                <div>
-                    <ul class="notification-body" *ngFor="let cart of cartPage.content">
-                        <li>
-                            <span>
+            <div>
+                <ul class="notification-body" *ngFor="let cart of cartPage.content">
+                    <li>
+                        <span>
 			                    <div class="bar-holder no-padding">
                                     <div class="bar-info">
                                         <div class="bar-btn">
@@ -16,33 +15,33 @@
                                         </div>
                                         <div class="note no-margin">
                                             <span>订单编号：</span>
-                            <span>{{cart.id}}</span>
-                </div>
-                <div class="note no-margin">
-                    <span>订单状态：</span>
-                    <i class="fa fa-jpy text-danger padding-right-10" *ngIf="cart.needPay"></i>
-                    <i class="fa fa-check text-success padding-right-10" *ngIf="!cart.needPay"></i> {{cart.status | cartStatusFormatPipe}}
-                </div>
-                <div class="note no-margin">
-                    <span>商品数量：</span>
-                    <span>{{getProductNumber(cart)}}</span>
-                </div>
-                <div class="note no-margin">
-                    <span>生成时间：</span>
-                    <span>{{cart.createdOn | dateFormatPipe:"YYYY-MM-DD HH:mm:ss"}}</span>
-                </div>
-                <div class="note no-margin">
-                    <span>取货时段：</span>
-                    <span>{{cart.takeBeginTime | dateFormatPipe:"YYYY-MM-DD"}}</span><span>{{cart.takeBeginTime | dateFormatPipe:" HH:mm:ss"}} - {{cart.takeEndTime | dateFormatPipe:"HH:mm:ss"}}</span>
-                </div>
-                <div class="note no-margin text-danger" *ngIf="cart.status === 0">
-                    <span>支付时限：</span>
-                    <span>{{cart.payTime | dateFormatPipe:"YYYY-MM-DD HH:mm:ss"}}</span>
-                </div>
-                <div class="note no-margin" *ngIf="cart.remark != null">
-                    <span>商品备注：</span>
-                    <span class="break-line">{{cart.remark}}</span>
-                </div>
+                        <span>{{cart.id}}</span>
+            </div>
+            <div class="note no-margin">
+                <span>订单状态：</span>
+                <i class="fa fa-jpy text-danger padding-right-10" *ngIf="cart.needPay"></i>
+                <i class="fa fa-check text-success padding-right-10" *ngIf="!cart.needPay"></i> {{cart.status | cartStatusFormatPipe}}
+            </div>
+            <div class="note no-margin">
+                <span>商品数量：</span>
+                <span>{{getProductNumber(cart)}}</span>
+            </div>
+            <div class="note no-margin">
+                <span>生成时间：</span>
+                <span>{{cart.createdOn | dateFormatPipe:"YYYY-MM-DD HH:mm:ss"}}</span>
+            </div>
+            <div class="note no-margin">
+                <span>取货时段：</span>
+                <span>{{cart.takeBeginTime | dateFormatPipe:"YYYY-MM-DD"}}</span><span>{{cart.takeBeginTime | dateFormatPipe:" HH:mm:ss"}} - {{cart.takeEndTime | dateFormatPipe:"HH:mm:ss"}}</span>
+            </div>
+            <div class="note no-margin text-danger" *ngIf="cart.status === 0">
+                <span>支付时限：</span>
+                <span>{{cart.payTime | dateFormatPipe:"YYYY-MM-DD HH:mm:ss"}}</span>
+            </div>
+            <div class="note no-margin" *ngIf="cart.remark != null">
+                <span>商品备注：</span>
+                <span class="break-line">{{cart.remark}}</span>
+            </div>
 </div>
 <div class="bar-detail" *ngIf="cart.showDetail">
     <table class="table">
@@ -71,7 +70,6 @@
     <button type="button" class="btn btn-secondary" (click)="queryNextPage()">下一页</button>
 </div>
 </div>
-</template>
 </md-tab>
 </md-tab-group>
 <ng2-slim-loading-bar></ng2-slim-loading-bar>

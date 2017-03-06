@@ -2,11 +2,11 @@
     <div class="card" *ngIf="product">
         <img *ngIf="product.imageSource" [src]="imagePreUrl+product.imageSource+'-md'">
         <div class="card-block product-name">
-            <h6 class="card-title">{{product.name}}<span class="offline" *ngIf="product.status === 1">（商品暂时下架）</span></h6>            
+            <h6 class="card-title">{{product.name}}<span class="offline" *ngIf="product.status === 1">（商品暂时下架）</span></h6>
         </div>
         <div class="card-block buy-price">
             <div class="price">
-                <strong class="strong-color">{{product.unitPrice * merchant.discount}}</strong>
+                <strong class="strong-color">{{getProductDiscount() | numberFormatPipe}}</strong>
                 <span class="strong-color">元</span>
             </div>
             <button md-raised-button color="warn" [disabled]="product.status === 1 || cartTakeTime.length === 0 || (!product.infinite && product.unitsInStock === 0)"

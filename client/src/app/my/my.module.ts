@@ -7,17 +7,17 @@ import { NavbarModule } from '../navbar/navbar.module';
 import { MaterialModule } from '@angular/material';
 
 import { MyComponent } from './my.component';
-import { routing } from './my.routing';
+import { MyRoutingModule } from './my.routing';
 
 
 @NgModule({
     imports: [
         SharedModule,
         RouterModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         SlimLoadingBarModule.forRoot(),
         NavbarModule,
-        routing
+        MyRoutingModule
     ],
     declarations: [MyComponent]
 })

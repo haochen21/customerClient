@@ -3,10 +3,10 @@ import { SharedModule } from '../shared/shared.module';
 
 import { LoginComponent } from './login.component';
 import { LoginFormComponent } from './login-form.component';
-import { routing } from './login.routing';
+import { LoginRoutingModule } from './login.routing';
 
 @NgModule({
-  imports: [SharedModule, routing],
+  imports: [SharedModule, LoginRoutingModule],
   declarations: [LoginComponent, LoginFormComponent]
 })
 export class LoginModule { }

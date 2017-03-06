@@ -27,9 +27,10 @@ export class ModifyUserComponent implements OnInit {
     this.form = formBuilder.group({
       'loginName': ['', ,],
       'name': ['', Validators.required],
-      'cardNo': ['', [], ValidationService.cardExists],
+      'cardNo': ['', ,],
       'phone': ['', [Validators.required, ValidationService.phoneValidator]],
-      'email': ['', [Validators.required, ValidationService.emailValidator]]
+      'email': ['', [ValidationService.emailValidator]],
+      'address': ['', ,]
     });
   }
 
@@ -42,6 +43,7 @@ export class ModifyUserComponent implements OnInit {
       (<FormControl>this.form.controls['cardNo']).setValue(this.customer.cardNo);
       (<FormControl>this.form.controls['phone']).setValue(this.customer.phone);
       (<FormControl>this.form.controls['email']).setValue(this.customer.mail);
+      (<FormControl>this.form.controls['address']).setValue(this.customer.address);
     }).catch(error => {
       console.log(error);
     });
@@ -58,6 +60,7 @@ export class ModifyUserComponent implements OnInit {
     customer.phone = this.form.value.phone;
     customer.mail = this.form.value.email;
     customer.cardNo = this.form.value.cardNo;
+    customer.address = this.form.value.address;
 
     this.securityService.modifyCustomer(customer).then(user => {
       localStorage.setItem('user', JSON.stringify(user));

@@ -9,7 +9,7 @@
               </button>
     </div>
   </div>
-  <div *ngFor="let m of merchants" class="list-group">
+  <div *ngFor="let m of merchants | orderBy : 'name' : true" class="list-group">
     <a class="list-group-item" (click)="goToMerchant(m)">
       <div class="media-box">
         <div class="pull-left img-container">

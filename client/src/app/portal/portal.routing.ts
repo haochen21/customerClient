@@ -1,8 +1,18 @@
-import { ModuleWithProviders } from '@angular/core';
-import { RouterModule }        from '@angular/router';
-
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { PortalComponent } from './portal.component';
 
-export const routing: ModuleWithProviders = RouterModule.forChild([
-  { path: 'portal', component: PortalComponent}
-]);
+const routes: Routes = [
+    { path: '', redirectTo: 'portal', pathMatch: 'full' },
+    { path: 'portal', component: PortalComponent }
+];
+
+@NgModule({
+    imports: [
+        RouterModule.forChild(routes)
+    ],
+    exports: [
+        RouterModule
+    ]
+})
+export class PortalRoutingModule { }

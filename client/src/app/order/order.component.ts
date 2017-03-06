@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import * as moment from 'moment';
 
-var wx = require('imports?this=>window!../../../jweixin-1.0.0.js')
+var wx = require('imports-loader?this=>window!../../../jweixin-1.0.0.js')
 
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
 

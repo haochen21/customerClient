@@ -10,7 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
 
 import { OrderComponent } from './order.component';
-import { routing } from './order.routing';
+import { OrderRoutingModule } from './order.routing';
 
 
 @NgModule({
@@ -18,9 +18,9 @@ import { routing } from './order.routing';
         SharedModule,
         RouterModule,
         SlimLoadingBarModule.forRoot(),
-        MaterialModule.forRoot(),
+        MaterialModule,
         NavbarModule,
-        routing
+        OrderRoutingModule
     ],
     declarations: [OrderComponent]
 })

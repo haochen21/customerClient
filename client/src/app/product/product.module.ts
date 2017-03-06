@@ -9,7 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
 
 import { ProductComponent } from './product.component';
-import { routing } from './product.routing';
+import { ProductRoutingModule } from './product.routing';
 
 
 @NgModule({
@@ -17,9 +17,9 @@ import { routing } from './product.routing';
         SharedModule,
         RouterModule,       
         SlimLoadingBarModule.forRoot(),
-        MaterialModule.forRoot(),
+        MaterialModule,
         NavbarModule,
-        routing
+        ProductRoutingModule
     ],
     declarations: [ProductComponent]
 })

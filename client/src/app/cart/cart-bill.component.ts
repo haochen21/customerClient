@@ -14,6 +14,7 @@ import { CartService } from '../core/cart.service';
 
 import { Customer } from '../model/Customer';
 import { Merchant } from '../model/Merchant';
+import { DiscountType } from '../model/DiscountType';
 import { Category } from '../model/Category';
 import { Cart } from '../model/Cart';
 import { CartItem } from '../model/CartItem';
@@ -135,6 +136,18 @@ export class CartBillComponent implements OnInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
+    getItemDiscount(item: CartItem) {
+        let price = item.unitPrice;
+        if (this.cart.merchant.discountType != null) {
+            if (this.cart.merchant.discountType == DiscountType.PERCNET) {
+                price = price * this.cart.merchant.discount;
+            } else if (this.cart.merchant.discountType == DiscountType.AMOUNT) {
+                price = price - this.cart.merchant.amount;
+            }
+        }
+        return price;
+    }
+
     getTotalPirce() {
         let total: number = 0;
         for (let item of this.cart.cartItems) {
@@ -143,6 +156,22 @@ export class CartBillComponent implements OnInit, OnDestroy {
             }
         }
         return total;
+    }
+
+    getPayPrice() {
+        let payPrice = this.getTotalPirce();
+        if (this.cart.merchant.discountType != null) {
+            if (this.cart.merchant.discountType == DiscountType.PERCNET) {
+                payPrice = payPrice * this.cart.merchant.discount;
+            } else if (this.cart.merchant.discountType == DiscountType.AMOUNT) {
+                let numberOfItem = 0;
+                for (let item of this.cart.cartItems) {
+                    numberOfItem = numberOfItem + item.quantity;
+                }
+                payPrice = payPrice - this.cart.merchant.amount * numberOfItem;
+            }
+        }
+        return payPrice;
     }
 
     covertTimeToDate(openRanges: Array<OpenRange>) {
@@ -228,6 +257,22 @@ export class CartBillComponent implements OnInit, OnDestroy {
             return 0;
         });
         console.log(this.cartTakeTime);
+    }
+
+    addressToRemark(event) {
+        let value: boolean = event.checked;
+        if (value) {
+            let remark = this.form.value.remark;
+            if (this.customer.address) {
+                remark = '地址：' + this.customer.address + '。';
+                (<FormControl>this.form.controls['remark']).setValue(remark);
+            }
+        } else {
+            let remark = this.form.value.remark;
+            let address = '地址：' + this.customer.address + '。';
+            remark = remark.replace(address, '');
+            (<FormControl>this.form.controls['remark']).setValue(remark);
+        }
     }
 
     onSubmit() {

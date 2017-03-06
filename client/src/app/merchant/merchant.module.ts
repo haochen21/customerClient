@@ -7,15 +7,15 @@ import { SharedModule } from '../shared/shared.module';
 import { NavbarModule } from '../navbar/navbar.module';
 
 import { MerchantComponent } from './merchant.component';
-import { routing } from './merchant.routing';
+import { MerchantRoutingModule } from './merchant.routing';
 
 @NgModule({
     imports: [
         SharedModule,
         ReactiveFormsModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         NavbarModule,
-        routing
+        MerchantRoutingModule
     ],
     declarations: [MerchantComponent]
 })

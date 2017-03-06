@@ -7,17 +7,17 @@ import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 import { NavbarModule } from '../navbar/navbar.module';
 
 import { PortalComponent } from './portal.component';
-import { routing } from './portal.routing';
+import { PortalRoutingModule } from './portal.routing';
 
 
 @NgModule({
     imports: [
         SharedModule,
         RouterModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         SlimLoadingBarModule.forRoot(),
         NavbarModule,
-        routing
+        PortalRoutingModule
     ],
     declarations: [PortalComponent]
 })

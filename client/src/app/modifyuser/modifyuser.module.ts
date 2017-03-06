@@ -4,10 +4,10 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 
 import { ModifyUserComponent } from './modifyuser.component';
-import { routing } from './modifyuser.routing';
+import { ModifyUserRoutingModule } from './modifyuser.routing';
 
 @NgModule({
-  imports: [SharedModule, ReactiveFormsModule, RouterModule, routing],
+  imports: [SharedModule, ReactiveFormsModule, RouterModule, ModifyUserRoutingModule],
   declarations: [ModifyUserComponent]
 })
 export class ModifyUserModule { }

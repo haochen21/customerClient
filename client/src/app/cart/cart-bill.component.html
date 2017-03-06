@@ -23,12 +23,12 @@
                 <div class="good-info">
                     <div class="gtitle"><b></b>{{item.name}}</div>
                     <div class="gprinum">
-                        <span class="gprice">¥{{item.unitPrice * cart.merchant.discount }}</span>
+                        <span class="gprice">¥{{getItemDiscount(item)}}</span>
                         <span class="gnum">X&nbsp;&nbsp;{{item.quantity}}</span>
                     </div>
                 </div>
                 <div class="totalPrice">
-                    <span>¥{{item.unitPrice * item.quantity * cart.merchant.discount | numberFormatPipe}}</span>
+                    <span>¥{{getItemDiscount(item) * item.quantity | numberFormatPipe}}</span>
                 </div>
             </div>
         </section>
@@ -39,7 +39,7 @@
                 <ul>
                     <li class="item">
                         <span class="pull-left">应付总额</span>
-                        <span class="pull-right amount">¥{{getTotalPirce() * cart.merchant.discount | numberFormatPipe}}</span>
+                        <span class="pull-right amount">¥{{getPayPrice() | numberFormatPipe}}</span>
                     </li>
                 </ul>
             </div>
@@ -68,6 +68,10 @@
                 </div>
                 <div class="form-group" *ngIf="orderResult && !orderResult.result">
                     <span class="col-xs-12 form-control-label order-error">{{orderResult.error}}</span>
+                </div>
+
+                <div class="form-group" *ngIf="cart.merchant.takeOut">
+                    <md-checkbox class="col-sm-2 form-control-label" [checked]="false" (change)="addressToRemark($event)">商家外卖，地址加入备注</md-checkbox>
                 </div>
 
                 <div class="form-group">

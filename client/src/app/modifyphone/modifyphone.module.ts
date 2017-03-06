@@ -6,15 +6,15 @@ import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '@angular/material';
 
 import { ModifyPhoneComponent } from './modifyphone.component';
-import { routing } from './modifyphone.routing';
+import { ModifyPhoneRoutingModule } from './modifyphone.routing';
 
 @NgModule({
     imports: [
         SharedModule,
         ReactiveFormsModule,
         RouterModule,
-        MaterialModule.forRoot(),
-        routing
+        MaterialModule,
+        ModifyPhoneRoutingModule
     ],
     declarations: [ModifyPhoneComponent]
 })

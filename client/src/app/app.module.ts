@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { CoreModule }   from './core/core.module';
-import { routing }  from './app.routing';
+import { AppRoutingModule }  from './app.routing';
 
 import { PortalModule } from './portal/portal.module';
 
@@ -16,7 +16,7 @@ import { PortalModule } from './portal/portal.module';
     BrowserModule,   
     CoreModule,
     PortalModule,
-    routing
+    AppRoutingModule
   ],
   bootstrap: [AppComponent]
 })

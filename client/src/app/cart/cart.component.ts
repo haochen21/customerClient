@@ -7,6 +7,7 @@ import { CartService } from '../core/cart.service';
 
 import { Customer } from '../model/Customer';
 import { Merchant } from '../model/Merchant';
+import { DiscountType } from '../model/DiscountType';
 import { Category } from '../model/Category';
 import { Cart } from '../model/Cart';
 import { CartItem } from '../model/CartItem';
@@ -87,6 +88,34 @@ export class CartComponent implements OnInit, OnDestroy {
             }
         }
         return total;
+    }
+
+    getPayPrice(cart: Cart) {
+        let payPrice = this.getTotalPirce(cart);
+        if (cart.merchant.discountType != null) {
+            if (cart.merchant.discountType == DiscountType.PERCNET) {
+                payPrice = payPrice * cart.merchant.discount;
+            } else if (cart.merchant.discountType == DiscountType.AMOUNT) {
+                let numberOfItem = 0;
+                for (let item of cart.cartItems) {
+                    numberOfItem = numberOfItem + item.quantity;
+                }
+                payPrice = payPrice - cart.merchant.amount * numberOfItem;
+            }
+        }
+        return payPrice;
+    }
+
+    getItemDiscount(cart:Cart,item: CartItem) {
+        let price = item.unitPrice;
+        if (cart.merchant.discountType != null) {
+            if (cart.merchant.discountType == DiscountType.PERCNET) {
+                price = price * cart.merchant.discount;
+            } else if (cart.merchant.discountType == DiscountType.AMOUNT) {
+                price = price - cart.merchant.amount;
+            }
+        }
+        return price;
     }
 
     purchase(cart: Cart) {
