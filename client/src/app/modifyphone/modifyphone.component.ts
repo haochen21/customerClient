@@ -17,13 +17,15 @@ export class ModifyPhoneComponent implements OnInit {
 
   form: FormGroup;
 
+  error: string;
+
   constructor(
     private formBuilder: FormBuilder,
     private securityService: SecurityService,
     private router: Router) {
 
     this.form = formBuilder.group({
-      'phone': ['', [Validators.required, ValidationService.phoneValidator],ValidationService.phoneExists]
+      'phone': ['', [Validators.required, ValidationService.phoneValidator], ]
     });
   }
 
@@ -33,7 +35,11 @@ export class ModifyPhoneComponent implements OnInit {
 
   onSubmit() {
     this.securityService.modifyCustomerPhone(this.form.value.phone).then(result => {
-      this.router.navigate(['/my']);
+      if (result.operate) {
+        this.router.navigate(['/portal']);
+      } else {
+        this.error = '手机号码已存在,请重新输入';
+      }
     }).catch(error => {
       console.log(error);
     });

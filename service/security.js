@@ -132,6 +132,15 @@ exports.modifyCustomer = function (req, res) {
     });
 }
 
+exports.modifyCustomerBySubscribe = function (customer) {
+    request({
+        url: config.remoteServer + '/security/customer',
+        method: 'PUT',
+        json: customer
+    }, function (err, response, body) {
+    });
+}
+
 exports.modifyCustomerPhone = function (req, res) {
     let customer = req.session.customer;
     let id = customer.id;
@@ -150,8 +159,14 @@ exports.modifyCustomerPhone = function (req, res) {
             console.error("modify phone error:", err, " (status: " + err.status + ")");
             res.status(404).end();
         } else {
-            req.session.customer.phone = phone;
-            res.status(200).end();
+            if (body === "true") {
+                console.log("modify phone success");
+                req.session.customer.phone = phone;
+                console.log('---- session ------' + JSON.stringify(req.session.customer));
+                res.status(200).send({ operate: true });
+            } else {
+                res.status(200).send({ operate: false });
+            }
         }
     });
 }
@@ -272,7 +287,7 @@ exports.findMechantByName = function (req, res) {
 
 exports.findCustomerByOpenId = function (openId, callback) {
     request.get({
-        url: config.remoteServer + '/security/customer/openId/' + openId
+        url: config.remoteServer + '/security/customer/openId/' + openId + '?' + new Date().getTime()
     }, function (err, response, body) {
         if (err || response.statusCode != 200) {
             callback(err);
@@ -290,7 +305,7 @@ exports.createCustomerByWeixin = function (customer, callback) {
     console.log(customer);
 
     request({
-        url: config.remoteServer + '/security/customer',
+        url: config.remoteServer + '/security/customer' + '?' + new Date().getTime(),
         method: 'POST',
         json: customer
     }, function (err, response, body) {

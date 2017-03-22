@@ -86,7 +86,7 @@ export class SecurityService {
         return this.http.put('api/modifyPhone', params)
             .toPromise()
             .then(response => {
-                return Promise.resolve();
+                 return response.json();
             })
             .catch(this.handleError);
     }
