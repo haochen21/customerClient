@@ -23,7 +23,7 @@
                 <div class="good-info">
                     <div class="gtitle"><b></b>{{item.name}}</div>
                     <div class="gprinum">
-                        <span class="gprice">¥{{getItemDiscount(item)}}</span>
+                        <span class="gprice">¥{{getItemDiscount(item) | numberFormatPipe}}</span>
                         <span class="gnum">X&nbsp;&nbsp;{{item.quantity}}</span>
                     </div>
                 </div>

@@ -47,15 +47,17 @@ router.post('/info', function (req, res) {
 
     var clientIp = getClientIp4(req);
 
+    var totalFee = cart.totalPrice * 100;//商品金额,以分为单位  
+    totalFee = totalFee.toFixed(0);
     var order = {
         body: '订单支付',//商品描述 
         attach: '微信支付',
         out_trade_no: cart.no, //商家订单号 
-        total_fee: cart.totalPrice * 100,//商品金额,以分为单位   
+        total_fee: totalFee, 
         spbill_create_ip: clientIp,//订单生成的机器IP，指用户浏览器端IP  
         openid: customer.openId,
         trade_type: 'JSAPI'
-    };
+    }; 
     console.log('order: ' + JSON.stringify(order));
     payment.getBrandWCPayRequestParams(order, function (err, payargs) {
         if (err) {
