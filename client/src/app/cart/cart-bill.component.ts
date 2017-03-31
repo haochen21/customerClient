@@ -40,8 +40,6 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
     cartTakeTime: Array<any> = new Array();
 
-    nextDay: boolean = false;
-
     productOpenTimeNoOverlap: boolean = false;
 
     selectNextDay: boolean = false;
@@ -116,10 +114,7 @@ export class CartBillComponent implements OnInit, OnDestroy {
                     this.productOpenTimeNoOverlap = true;
                 } else {
                     this.covertTimeToDate(openRanges);
-                    if (this.cartTakeTime.length === 0) {
-                        this.nextDay = true;
-                        this.covertNextTimeToDate(openRanges);
-                    }
+                    this.covertNextTimeToDate(openRanges);
                 }
             });
             this.slimLoader.complete();
@@ -196,12 +191,11 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
         let now: moment.Moment = moment(new Date());
         now = now.add(takeTimeLimit, 'minutes');
-        console.log(now.toDate());
         for (let openRange of openRanges) {
             let beginDateTime: moment.Moment = moment(new Date());
             beginDateTime = beginDateTime.hours(openRange.beginTime.getHours()).minutes(openRange.beginTime.getMinutes()).seconds(openRange.beginTime.getSeconds()).milliseconds(0);
-
             let beginTimes = beginDateTime.format('HH:mm:ss').split(':');
+
             let endDateTime: moment.Moment = moment(new Date());
             endDateTime = endDateTime.hours(openRange.endTime.getHours()).minutes(openRange.endTime.getMinutes()).seconds(openRange.endTime.getSeconds()).milliseconds(0);
             let endTimes = endDateTime.format('HH:mm:ss').split(':');
@@ -210,13 +204,15 @@ export class CartBillComponent implements OnInit, OnDestroy {
                 this.cartTakeTime.push({
                     takeBeginTime: beginDateTime.toDate(),
                     takeEndTime: endDateTime.toDate(),
-                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1],
+                    nextDay: false
                 });
             } else if (now.isBetween(beginDateTime, endDateTime) && userCurrentOpenTime) {
                 this.cartTakeTime.push({
                     takeBeginTime: beginDateTime.toDate(),
                     takeEndTime: endDateTime.toDate(),
-                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1],
+                    nextDay: false
                 });
             }
         }
@@ -244,7 +240,8 @@ export class CartBillComponent implements OnInit, OnDestroy {
             this.cartTakeTime.push({
                 takeBeginTime: beginDateTime.toDate(),
                 takeEndTime: endDateTime.toDate(),
-                desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1],
+                nextDay: true
             });
         }
         this.cartTakeTime.sort(function (a, b) {
@@ -315,6 +312,10 @@ export class CartBillComponent implements OnInit, OnDestroy {
             }
         };
         this.toastyService.success(toastOptions);
+    }
+
+    changeNextDay(event: any) {
+        this.selectNextDay = !this.selectNextDay;
     }
 }
 

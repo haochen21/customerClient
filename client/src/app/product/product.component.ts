@@ -34,9 +34,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     cartTakeTime: Array<any> = new Array();
 
-    nextDay: boolean = false;
-
-    imagePreUrl: string = this.storeService.imagePreUrl;
+    magePreUrl: string = this.storeService.imagePreUrl;
 
     private sub: any;
 
@@ -64,10 +62,7 @@ export class ProductComponent implements OnInit, OnDestroy {
                         this.product = value;
                         console.log(this.product);
                         this.covertTimeToDate(value.openRanges);
-                        if (this.cartTakeTime.length === 0) {
-                            this.nextDay = true;
-                            this.covertNextTimeToDate(value.openRanges);
-                        }
+                        this.covertNextTimeToDate(value.openRanges);
                     }).catch(error => {
                         console.log(error);
                         this.slimLoader.complete();
@@ -119,7 +114,8 @@ export class ProductComponent implements OnInit, OnDestroy {
             this.cartTakeTime.push({
                 takeBeginTime: beginDateTime.toDate(),
                 takeEndTime: endDateTime.toDate(),
-                desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1],
+                nextDay: true
             });
         }
         this.cartTakeTime.sort(function (a, b) {
@@ -208,13 +204,15 @@ export class ProductComponent implements OnInit, OnDestroy {
                 this.cartTakeTime.push({
                     takeBeginTime: beginDateTime.toDate(),
                     takeEndTime: endDateTime.toDate(),
-                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1],
+                    nextDay: false
                 });
             } else if (now.isBetween(beginDateTime, endDateTime) && this.product.openRange) {
                 this.cartTakeTime.push({
                     takeBeginTime: beginDateTime.toDate(),
                     takeEndTime: endDateTime.toDate(),
-                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1]
+                    desc: beginTimes[0] + ':' + beginTimes[1] + ' - ' + endTimes[0] + ':' + endTimes[1],
+                    nextDay: false
                 });
             }
         }

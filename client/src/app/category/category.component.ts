@@ -18,7 +18,7 @@ import { Product } from '../model/Product';
 import { ProductStatus } from '../model/ProductStatus';
 
 @Component({
-    selector: 'ticket-category',    
+    selector: 'ticket-category',
     templateUrl: './category.component.html',
     styleUrls: ['./category.component.css']
 })
@@ -62,6 +62,21 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
                     this.storeService.findCategoryByMerchantId(this.merchant.id).then(value => {
                         this.categorys = value;
+                        this.categorys.sort(function (a, b) {
+                            if (a.sequence == null) {
+                                return 1;
+                            }
+                            if (b.sequence == null) {
+                                return -1;
+                            }
+                            if (a.sequence > b.sequence) {
+                                return 1;
+                            }
+                            if (a.sequence < b.sequence) {
+                                return -1;
+                            }
+                            return 0;
+                        });
                         //add other for product which has not a category
                         let other: Category = new Category();
                         other.id = -1;
