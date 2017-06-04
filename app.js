@@ -92,7 +92,9 @@ router.route('/merchant')
 router.route('/merchant/name/:name')
     .get(service.security.findMechantByName);
 router.route('/merchant/size')
-    .get(service.security.countMechantsOfCustomer)
+    .get(service.security.countMechantsOfCustomer);
+router.route('/merchant/introduce/id/:id')
+    .get(service.security.findMerchantWithIntroduce);    
 router.route('/password', checkLogin)
     .put(service.security.modifyPassword);
 router.route('/merchant/openRange/:id')

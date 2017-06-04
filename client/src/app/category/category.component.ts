@@ -57,7 +57,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
             this.sub = this.route.params.subscribe(params => {
                 let merchantId: number = +params['merchantId'];
-                this.securityService.findMerchantById(merchantId).then(dbMerchant => {
+                this.securityService.findMerchantByIdWithIntro(merchantId).then(dbMerchant => {
                     this.merchant = dbMerchant;
 
                     this.storeService.findCategoryByMerchantId(this.merchant.id).then(value => {
@@ -82,6 +82,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
                         other.id = -1;
                         other.name = '其它';
                         this.categorys.push(other);
+
+                        if(this.merchant.introduce){
+                            let introduce:Category = new Category();
+                            introduce.name = '简介';
+                            introduce.id = -100;
+                            this.categorys.unshift(introduce);
+                        }
+                        
                         console.log(value);
                         return this.storeService.findProductByMerchantId(this.merchant.id);
                     }).then(value => {

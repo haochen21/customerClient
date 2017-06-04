@@ -138,6 +138,15 @@ export class SecurityService {
             .catch(this.handleError);
     }
 
+    findMerchantByIdWithIntro(id: number): Promise<Merchant> {
+        return this.http.get('api/merchant/introduce/id/' + id)
+            .toPromise()
+            .then(response => {
+                return response.json();
+            })
+            .catch(this.handleError);
+    }
+
     findMechantByName(name: string): Promise<Array<Merchant>> {
         return this.http.get('api/merchant/name/' + name)
             .toPromise()

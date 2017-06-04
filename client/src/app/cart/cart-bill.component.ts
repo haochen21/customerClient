@@ -44,7 +44,9 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
     selectNextDay: boolean = false;
 
-    form: FormGroup;
+    inDoorForm: FormGroup;
+
+    outDoorForm: FormGroup;
 
     orderResult: OrderResult;
 
@@ -61,7 +63,20 @@ export class CartBillComponent implements OnInit, OnDestroy {
         private toastyService: ToastyService,
         private toastyConfig: ToastyConfig,
         private slimLoader: SlimLoadingBarService) {
+
         this.toastyConfig.theme = 'material';
+
+        this.inDoorForm = this.formBuilder.group({
+            'takeTimeRange': [, [Validators.required]],
+            'remark': ['', [Validators.minLength(0), Validators.maxLength(255)]]
+        });
+
+        this.outDoorForm = this.formBuilder.group({
+            'name': ['', Validators.required],
+            'address': ['', Validators.nullValidator],
+            'phone': ['', Validators.nullValidator],
+            'remark': ['', [Validators.minLength(0), Validators.maxLength(255)]]
+        });
     }
 
     ngOnInit() {
@@ -73,10 +88,11 @@ export class CartBillComponent implements OnInit, OnDestroy {
             this.customer = dbCustomer;
             this.carts = JSON.parse(localStorage.getItem('carts'));
             console.log(this.carts);
-            this.form = this.formBuilder.group({
-                'takeTimeRange': [, [Validators.required]],
-                'remark': ['', [Validators.minLength(0), Validators.maxLength(255)]]
-            });
+
+            (<FormControl>this.outDoorForm.controls['name']).setValue(this.customer.name);
+            (<FormControl>this.outDoorForm.controls['address']).setValue(this.customer.address);
+            (<FormControl>this.outDoorForm.controls['phone']).setValue(this.customer.phone);
+
             this.sub = this.route.params.subscribe(params => {
                 let merchantId = +params['merchantId']; // (+) converts string 'id' to a number
                 for (let cart of this.carts) {
@@ -256,28 +272,40 @@ export class CartBillComponent implements OnInit, OnDestroy {
         console.log(this.cartTakeTime);
     }
 
-    addressToRemark(event) {
-        let value: boolean = event.checked;
-        if (value) {
-            let remark = this.form.value.remark;
-            if (this.customer.address) {
-                remark = '地址：' + this.customer.address + '。';
-                (<FormControl>this.form.controls['remark']).setValue(remark);
-            }
-        } else {
-            let remark = this.form.value.remark;
-            let address = '地址：' + this.customer.address + '。';
-            remark = remark.replace(address, '');
-            (<FormControl>this.form.controls['remark']).setValue(remark);
-        }
-    }
-
-    onSubmit() {
+    onInDoorSubmit() {
         this.slimLoader.start();
         this.orderResult = null;
-        this.cart.takeBeginTime = this.form.value.takeTimeRange.takeBeginTime;
-        this.cart.takeEndTime = this.form.value.takeTimeRange.takeEndTime;
-        this.cart.remark = this.form.value.remark;
+        this.cart.takeOut = false;
+        this.cart.takeBeginTime = this.inDoorForm.value.takeTimeRange.takeBeginTime;
+        this.cart.takeEndTime = this.inDoorForm.value.takeTimeRange.takeEndTime;
+        this.cart.remark = this.inDoorForm.value.remark;
+
+        this.orderService.purchase(this.cart).then(value => {
+            this.orderResult = value;
+            console.log(this.orderResult);
+            if (this.orderResult.result) {
+                this.carts = this.carts.filter(c => c.merchant.id !== this.cart.merchant.id);
+                localStorage.setItem('carts', JSON.stringify(this.carts));
+                this.cartService.changeCarts(this.carts);
+                let needPay = this.orderResult.cart.needPay ? 1 : 0;
+                this.router.navigate(['/order', needPay]);
+            }
+            this.slimLoader.complete();
+        }).catch(error => {
+            console.log(error);
+            this.slimLoader.complete();
+        });
+
+    }
+
+    onOutDoorSubmit() {
+        this.slimLoader.start();
+        this.orderResult = null;
+        this.cart.takeOut = true;
+        this.cart.name = this.outDoorForm.value.name;
+        this.cart.address = this.outDoorForm.value.address;
+        this.cart.phone = this.outDoorForm.value.phone;
+        this.cart.remark = this.outDoorForm.value.remark;
 
         this.orderService.purchase(this.cart).then(value => {
             this.orderResult = value;
@@ -316,6 +344,21 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
     changeNextDay(event: any) {
         this.selectNextDay = !this.selectNextDay;
+    }
+
+    isOneTime() {
+        let result = false;
+        let todayTakeTime = [];
+        for (var i = 0; i < this.cartTakeTime.length; i++) {
+            if (!this.cartTakeTime[i].nextDay) {
+                todayTakeTime.push(this.cartTakeTime[i]);
+            }
+        }
+        if(todayTakeTime.length == 1){
+            return true;
+        }else {
+            return false;
+        }
     }
 }
 

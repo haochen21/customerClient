@@ -4,6 +4,9 @@
         <div class="card-block product-name">
             <h6 class="card-title">{{product.name}}<span class="offline" *ngIf="product.status === 1">（商品暂时下架）</span></h6>
         </div>
+        <div class="card-block">
+            <p class="card-text">{{product.description}}</p>
+        </div>
         <div class="card-block buy-price">
             <div class="price">
                 <strong class="strong-color">{{getProductDiscount() | numberFormatPipe}}</strong>
@@ -26,9 +29,6 @@
                 <div class="address single-line">{{merchant.address}}</div>
                 <div class="merchant-phone"><i class="fa fa-phone"></i>{{merchant.phone}}</div>
             </div>
-        </div>
-        <div class="card-block">
-            <p class="card-text">{{product.description}}</p>
         </div>
     </div>
     <ng2-slim-loading-bar></ng2-slim-loading-bar>

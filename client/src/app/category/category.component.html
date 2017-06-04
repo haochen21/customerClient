@@ -1,29 +1,33 @@
 <div class="category-container">
     <tabset class="varieties-shop">
         <tab *ngFor="let c of categorys;let i = index" [heading]="c.name" [active]="i === 0">
-
-            <div *ngFor="let p of c.products" class="list-group">
-                <a class="list-group-item" (click)="detail(p)">
-                    <div class="media-box">
-                        <div class="pull-left">
-                            <img *ngIf="p.imageSource" [src]="imagePreUrl+p.imageSource+'-sm'" style="width:50px; height:50px;">
-                            <img *ngIf="!p.imageSource" src="../../assets/images/orderpic_03.png" style="width:50px; height:50px;">
-                        </div>
-                        <div class="pull-right">
-                            <button md-mini-fab color="warn" [disabled]="p.status === 1 ||(!p.infinite && p.unitsInStock === 0)" (click)="addCart($event,p)">
+            <div *ngIf="c.id === -100">
+                <div [innerHtml]="merchant.introduce.introduce"></div>
+            </div>
+            <div *ngIf="c.id >= 0">
+                <div *ngFor="let p of c.products" class="list-group">
+                    <a class="list-group-item" (click)="detail(p)">
+                        <div class="media-box">
+                            <div class="pull-left">
+                                <img *ngIf="p.imageSource" [src]="imagePreUrl+p.imageSource+'-sm'" style="width:50px; height:50px;">
+                                <img *ngIf="!p.imageSource" src="../../assets/images/orderpic_03.png" style="width:50px; height:50px;">
+                            </div>
+                            <div class="pull-right">
+                                <button md-mini-fab color="warn" [disabled]="p.status === 1 ||(!p.infinite && p.unitsInStock === 0)" (click)="addCart($event,p)">
                                 <md-icon fontSet="fa" fontIcon="fa-plus"></md-icon>
                             </button>
-                        </div>
-                        <div class="media-box-body clearfix">
-                            <div class="body-container">
-                                <p class="m0">{{p.name}}</p>
-                                <p class="m0 text-muted">
-                                    <small>单价：</small><small class="green">￥{{getProductDiscount(p) | numberFormatPipe}}</small>
-                                </p>
+                            </div>
+                            <div class="media-box-body clearfix">
+                                <div class="body-container">
+                                    <p class="m0">{{p.name}}</p>
+                                    <p class="m0 text-muted">
+                                        <small>单价：</small><small class="green">￥{{getProductDiscount(p) | numberFormatPipe}}</small>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
             </div>
         </tab>
     </tabset>

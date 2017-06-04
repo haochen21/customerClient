@@ -7,6 +7,9 @@ export class Cart {
 
     id: number;
     no: string;
+    name: string;
+    phone: string;
+    address: string;
     merchant: Merchant;
     customer: Customer;
     status: CartStatus;
@@ -21,6 +24,7 @@ export class Cart {
     createdOn: Date;
     updatedOn: Date;
     remark: string;
+    takeOut: boolean;
     cartItems: Array<CartItem>;
     version: number;
 

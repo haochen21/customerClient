@@ -32,7 +32,8 @@ router.get('/callback', function (req, res) {
 
   if (req.session && req.session.customer) {
     securityService.findCustomerByOpenId(req.session.customer.openId, function (err, customer) {
-      if (err || customer === null || customer.name === null) {
+      console.log('findCustomerByOpenId---'+JSON.stringify(customer)+',typeof'+typeof(customer));
+      if (err || customer === null || typeof(reValue) == "undefined" || customer.name === null) {
         createCustomer(code, req, res);
       } else {
         req.session.customer = customer;
@@ -65,7 +66,7 @@ function createCustomer(code, req, res) {
 
     securityService.findCustomerByOpenId(openid, function (err, customer) {
       //console.log('createCustomer,返回的customer = ' + JSON.stringify(customer));
-      if (err || customer === null) {
+      if (err || customer === null || typeof(customer) == "undefined") {
         console.log('customer is not exist.');
 
         client.getUser(openid, function (err, result) {
@@ -90,9 +91,14 @@ function createCustomer(code, req, res) {
               console.error('customer save error ....' + err);
             } else {
               //console.log('Customer save sucess ....' + JSON.stringify(result));
-              req.session.auth = true;
-              req.session.customer = result;
-              res.redirect('/?#/modifyphone');
+              if (result) {
+                req.session.auth = true;
+                req.session.customer = result;
+                res.redirect('/?#/modifyphone');
+              } else {
+                req.session.auth = false;
+                req.session.customer = null;
+              }
             }
           });
 
@@ -122,10 +128,16 @@ function createCustomer(code, req, res) {
             if (err) {
               console.error('customer update error ....' + err);
             } else {
-              //console.log('Customer update sucess ....' + JSON.stringify(body));
-              req.session.auth = true;
-              req.session.customer = body;
-              res.redirect('/?#/modifyphone');
+              console.log('Customer update sucess ....' + JSON.stringify(body));
+              if (body) {
+                req.session.auth = true;
+                req.session.customer = body;
+                res.redirect('/?#/modifyphone');
+              } else {
+                req.session.auth = false;
+                req.session.customer = null;
+              }
+
             }
           });
         });

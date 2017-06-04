@@ -4,7 +4,7 @@
     </div>
     <div>
         <div class="alert alert-danger">
-            <strong>请注意：</strong> 人工确认提货仅在设备发生故障，或者超出提货时间段才可使用。确认时请同时给提货的商家展示并说明！
+            <strong>请注意：</strong> 当您收到商品/预约服务完成/预约服务前台确认智能终端没有打印的情况下，点击确认提货，代表该服务完成。谢谢您的配合！
         </div>
         <ul class="notification-body" *ngFor="let cart of cartPage.content">
             <li>
@@ -32,7 +32,7 @@
                                 <span>生成时间：</span>
                                 <span>{{cart.createdOn | dateFormatPipe:"YYYY-MM-DD HH:mm:ss"}}</span>
                             </div>
-                            <div class="note no-margin">
+                            <div class="note no-margin" *ngIf="!cart.takeOut">
                                 <span>取货时段：</span>
                                 <span>{{cart.takeBeginTime | dateFormatPipe:"YYYY-MM-DD"}}</span><span>{{cart.takeBeginTime | dateFormatPipe:" HH:mm:ss"}} - {{cart.takeEndTime | dateFormatPipe:"HH:mm:ss"}}</span>
                             </div>

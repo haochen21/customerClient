@@ -7,6 +7,7 @@ var api = new API(config.appid, config.appsecret);
 const UNPAIDTEMPLATE = '6XyBGszgnetQTR_vYGh7OYHltPXV8yR8Kz4uevgri0k';
 const DELIVEREDTEMPLATE = 'E49gjhslP7_i4lA-5Vz4rgYkFMw5ZwLq6jLzOx-u_Wo';
 const TAKETEMPLATE = 'ugwsoSOpz6uWUmEZxUmfW3abruUK7c7Rr8M4zGDGssg';
+const FOLLOWTEMPLATE = 'enhadbGkluotrUKeS843SXWBNiKTyjQo2g4T3kAlGjc';
 
 exports.getLatestToken = function (callback) {
     api.getLatestToken(callback);
@@ -61,7 +62,7 @@ function createUnpaidStr(cart) {
 function createDeliverStr(cart) {
     var json = {};
     json.first = {};
-    json.first.value = '尊敬的用户您好，您的订单已完成。';
+    json.first.value = '尊敬的用户您好，您的订单/预约服务已完成。';
     json.first.color = '#173177';
 
     json.keyword1 = {};
@@ -82,8 +83,8 @@ function createTakeStr(cart) {
     var json = {};
     json.first = {};
     if (cart.needPay) {
-        json.first.value = '尊敬的用户您好，您的订单已下单。';
-    } else {
+        json.first.value = '尊敬的用户您好，您的订单/预约服务已下单。';
+    } else if (!cart.takeOut) {
         json.first.value = '您的订单已经确认，请您按照约定的时间去现场提货付款，逾期订单将自动取消，敬请留意';
     }
     json.first.color = '#173177';
@@ -92,14 +93,22 @@ function createTakeStr(cart) {
     json.OrderSn.value = cart.id;
 
     json.OrderStatus = {};
-    json.OrderStatus.value = '待取货';
+    if (!cart.takeOut) {
+        json.OrderStatus.value = '待取货';
+    } else {
+        json.OrderStatus.value = '待收货';
+    }
     json.OrderStatus.color = '#d9534f';
 
     json.remark = {};
     var takeBeginTime = moment(new Date().setTime(cart.takeBeginTime));
     var takeEndTime = moment(new Date().setTime(cart.takeEndTime));
     var phone = cart.merchant.phone ? cart.merchant.phone : '';
-    json.remark.value = '请在以下时间取货：' + takeBeginTime.format('YYYY-MM-DD HH:mm:ss') + ' - ' + takeEndTime.format('HH:mm:ss') + '，如有任何疑问，请拨打商家电话：' + phone;
+    if (!cart.takeOut) {
+        json.remark.value = '请在以下时间取货：' + takeBeginTime.format('YYYY-MM-DD HH:mm:ss') + ' - ' + takeEndTime.format('HH:mm:ss') + '，如有任何疑问，请拨打商家电话：' + phone;
+    } else {
+        json.remark.value =  '如有任何疑问，请拨打服务提供方电话：' + phone;
+    }
 
     return json;
 }
@@ -132,6 +141,25 @@ function createCanceledStr(cart) {
     json.remark.color = '#d9534f';
 
     return json;
+}
+
+exports.createFollowStr = function (customer) {
+    var json = {};
+    json.first = {};
+    json.first.value = '感谢您关注康萌预约宝！';
+
+    json.keyword1 = {};
+    json.keyword1.value = customer.id;
+
+    json.keyword2 = {};
+    var updatedOn = moment(new Date());
+    json.keyword2.value = updatedOn.format('YYYY-MM-DD HH:mm:ss');
+
+    var openId = customer.openId;
+    if (openId) {
+        console.log('follow message: ' + JSON.stringify(json));
+        api.sendTemplate(openId, FOLLOWTEMPLATE, null, json, sendResult);
+    }
 }
 
 function sendResult(err, result) {

@@ -34,7 +34,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     cartTakeTime: Array<any> = new Array();
 
-    magePreUrl: string = this.storeService.imagePreUrl;
+    imagePreUrl: string = this.storeService.imagePreUrl;
 
     private sub: any;
 

@@ -1,5 +1,6 @@
 import { OpenRange } from './OpenRange';
 import { DiscountType } from './DiscountType';
+import { MerchantIntro } from './MerchantIntro';
 
 export class Merchant {
 
@@ -26,6 +27,8 @@ export class Merchant {
     openRanges: Array<OpenRange>;
     version: number;
     concern: boolean;
+
+    introduce: MerchantIntro;
 
     constructor() {
     }

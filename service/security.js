@@ -146,7 +146,7 @@ exports.modifyCustomerPhone = function (req, res) {
     let id = customer.id;
 
     let phone = req.body.phone;
-
+    console.log('modify phone,customer id is:' + id + ',phone is:' + phone);
     request({
         url: config.remoteServer + '/security/customer/modifyPhone',
         method: 'PUT',
@@ -159,8 +159,8 @@ exports.modifyCustomerPhone = function (req, res) {
             console.error("modify phone error:", err, " (status: " + err.status + ")");
             res.status(404).end();
         } else {
+            console.log("modify phone return....."+ body);
             if (body === "true") {
-                console.log("modify phone success");
                 req.session.customer.phone = phone;
                 console.log('---- session ------' + JSON.stringify(req.session.customer));
                 res.status(200).send({ operate: true });
@@ -261,6 +261,20 @@ exports.findMerchantById = function (req, res) {
     let id = req.params.id;
     request.get({
         url: config.remoteServer + '/security/merchant/' + id
+    }, function (err, response, body) {
+        if (err) {
+            console.error("find merchant error:", err, " (status: " + err.status + ")");
+            res.status(404).end();
+        } else {
+            res.status(200).send(body);
+        }
+    });
+}
+
+exports.findMerchantWithIntroduce = function (req, res) {
+    let id = req.params.id;
+    request.get({
+        url: config.remoteServer + '/security/merchant/introduce/' + id
     }, function (err, response, body) {
         if (err) {
             console.error("find merchant error:", err, " (status: " + err.status + ")");

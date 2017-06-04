@@ -7,6 +7,8 @@ var router = express.Router();
 var xmlparser = require('express-xml-bodyparser');
 var securityService = require('../service/security');
 
+var sendMessage = require('./wx-sendMessage');
+
 var client = new OAuth(config.appid, config.appsecret);
 
 router.get('/', function (req, res) {
@@ -30,7 +32,7 @@ router.post('/', xmlparser({ trim: false, explicitArray: false }), function (req
 		//console.log('weixinEvent:' + openId + "," + merchantId);
 		securityService.findCustomerByOpenId(openId, function (err, customer) {
 			//console.log('portal auth,返回的customer = ' + JSON.stringify(customer));
-			if (err || customer === null) {
+			if (err || customer === null || typeof(customer) == "undefined") {
 				//console.log('customer is not exist.');
 				var _user = {};
 				_user.openId = openId;
@@ -41,11 +43,12 @@ router.post('/', xmlparser({ trim: false, explicitArray: false }), function (req
 						console.log('customer save error ....' + err);
 					} else {
 						//console.log('Customer save sucess ....' + JSON.stringify(result));
-						createMerchantOfCustomer(result.id, merchantId);
+						sendMessage.createFollowStr(result);
+						createMerchantOfCustomer(result.id, merchantId,openId);
 					}
 				});
 			} else {
-				createMerchantOfCustomer(customer.id, merchantId);
+				createMerchantOfCustomer(customer.id, merchantId,openId);
 			}
 		});
 	} else if (weixinEvent.event === 'SCAN') {
@@ -55,14 +58,14 @@ router.post('/', xmlparser({ trim: false, explicitArray: false }), function (req
 		securityService.findCustomerByOpenId(openId, function (err, customer) {
 			//console.log('portal scan auth,返回的customer = ' + JSON.stringify(customer));
 			if (customer != null) {
-				createMerchantOfCustomer(customer.id, merchantId);
+				createMerchantOfCustomer(customer.id, merchantId,openId);
 			}
 
 		});
 	}
 });
 
-function createMerchantOfCustomer(customerId, merchantId) {
+function createMerchantOfCustomer(customerId, merchantId,openId) {
 	request({
 		url: appConfig.remoteServer + '/security/customer/qrcodeMerchant',
 		method: 'PUT',
@@ -73,7 +76,7 @@ function createMerchantOfCustomer(customerId, merchantId) {
 				}, function (err, response, body) {
 		if (err) {
 			console.error("modify merchant of customer error:", err, " (status: " + err.status + ")");
-		}
+		} 
 				});
 }
 module.exports = router;

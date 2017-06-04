@@ -30,7 +30,7 @@
                 <span>生成时间：</span>
                 <span>{{cart.createdOn | dateFormatPipe:"YYYY-MM-DD HH:mm:ss"}}</span>
             </div>
-            <div class="note no-margin">
+            <div class="note no-margin" *ngIf="!cart.takeOut">
                 <span>取货时段：</span>
                 <span>{{cart.takeBeginTime | dateFormatPipe:"YYYY-MM-DD"}}</span><span>{{cart.takeBeginTime | dateFormatPipe:" HH:mm:ss"}} - {{cart.takeEndTime | dateFormatPipe:"HH:mm:ss"}}</span>
             </div>
