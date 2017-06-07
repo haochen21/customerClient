@@ -21,6 +21,7 @@ import { CartItem } from '../model/CartItem';
 import { OpenRange } from '../model/OpenRange';
 import { Product } from '../model/Product';
 import { OrderResult } from '../model/OrderResult';
+import { OrderAddress } from '../model/OrderAddress';
 
 @Component({
     selector: 'ticket-cartbill',
@@ -35,6 +36,8 @@ export class CartBillComponent implements OnInit, OnDestroy {
     carts: Array<Cart>;
 
     cart: Cart;
+
+    orderAddress: OrderAddress;
 
     imagePreUrl: string = this.storeService.imagePreUrl;
 
@@ -73,8 +76,8 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
         this.outDoorForm = this.formBuilder.group({
             'name': ['', Validators.required],
-            'address': ['', Validators.nullValidator],
-            'phone': ['', Validators.nullValidator],
+            'address': ['', Validators.required],
+            'phone': ['', Validators.required],
             'remark': ['', [Validators.minLength(0), Validators.maxLength(255)]]
         });
     }
@@ -84,14 +87,24 @@ export class CartBillComponent implements OnInit, OnDestroy {
 
         this.slimLoader.start();
 
-        this.securityService.findCustomer().then(dbCustomer => {
+        this.securityService.findCustomerWithOrderAddrress().then(dbCustomer => {
             this.customer = dbCustomer;
             this.carts = JSON.parse(localStorage.getItem('carts'));
             console.log(this.carts);
 
+            let address = '';
+            if (this.customer.orderAddresses) {
+                for (let orderAddress of this.customer.orderAddresses) {
+                    if (orderAddress.lastCheck) {
+                        address = orderAddress.address;
+                        break;
+                    }
+                }
+            }
             (<FormControl>this.outDoorForm.controls['name']).setValue(this.customer.name);
-            (<FormControl>this.outDoorForm.controls['address']).setValue(this.customer.address);
             (<FormControl>this.outDoorForm.controls['phone']).setValue(this.customer.phone);
+            (<FormControl>this.outDoorForm.controls['address']).setValue(address);
+
 
             this.sub = this.route.params.subscribe(params => {
                 let merchantId = +params['merchantId']; // (+) converts string 'id' to a number
@@ -272,6 +285,10 @@ export class CartBillComponent implements OnInit, OnDestroy {
         console.log(this.cartTakeTime);
     }
 
+    changeOrderAddress(selectedAddress: string) {
+        (<FormControl>this.outDoorForm.controls['address']).setValue(selectedAddress);
+    }
+
     onInDoorSubmit() {
         this.slimLoader.start();
         this.orderResult = null;
@@ -306,6 +323,14 @@ export class CartBillComponent implements OnInit, OnDestroy {
         this.cart.address = this.outDoorForm.value.address;
         this.cart.phone = this.outDoorForm.value.phone;
         this.cart.remark = this.outDoorForm.value.remark;
+
+        let beginDate: moment.Moment = moment(new Date());
+        beginDate.hours(0).minutes(0).seconds(0).milliseconds(0);
+        this.cart.takeBeginTime = beginDate.toDate();
+
+        let endDate: moment.Moment = moment(new Date());
+        endDate.hours(23).minutes(59).seconds(59).milliseconds(0);
+        this.cart.takeEndTime = endDate.toDate();
 
         this.orderService.purchase(this.cart).then(value => {
             this.orderResult = value;
@@ -354,9 +379,9 @@ export class CartBillComponent implements OnInit, OnDestroy {
                 todayTakeTime.push(this.cartTakeTime[i]);
             }
         }
-        if(todayTakeTime.length == 1){
+        if (todayTakeTime.length == 1) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }

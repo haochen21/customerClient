@@ -12,7 +12,7 @@ var weixin = require('./weixin');
 var service = require('./service');
 
 var ticketSocket = require('./message/socket');
-var stompMessage = require('./message/stompMessage');
+var kafkaMessage = require('./message/kafkaMessage');
 
 var server = http.createServer(app);
 
@@ -20,7 +20,7 @@ var io = socketio(server);
 io.set("origins", "*:*");
 ticketSocket.initialize(io);
 
-stompMessage.initialize(io);
+kafkaMessage.initialize(io);
 
 app.use(compression());
 
@@ -81,6 +81,8 @@ router.route('/customer')
     .get(service.security.findCustomer)
     .post(service.security.createCustomer)
     .put(service.security.modifyCustomer);
+router.route('/customer/orderAddress')
+    .get(service.security.findCustomerWithOrderAddress);     
 router.route('/modifyPhone', checkLogin)
     .put(service.security.modifyCustomerPhone);
 router.route('/merchant/id/:id')

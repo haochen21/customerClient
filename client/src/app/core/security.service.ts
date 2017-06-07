@@ -54,6 +54,15 @@ export class SecurityService {
             .catch(this.handleError);
     }
 
+    findCustomerWithOrderAddrress(): Promise<Customer> {
+        return this.http.get('api/customer/orderAddress')
+            .toPromise()
+            .then(response => {
+                return response.json();
+            })
+            .catch(this.handleError);
+    }
+
     registerCustomer(customer: Customer): Promise<Customer> {
         let body = JSON.stringify({ customer });
         let headers = new Headers({ 'Content-Type': 'application/json' });

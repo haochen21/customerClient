@@ -1,3 +1,4 @@
+import { OrderAddress } from './OrderAddress';
 export class Customer {
 
     id: number;
@@ -9,6 +10,7 @@ export class Customer {
     address: string;
     createdOn: Date;
     cardNo: string;
+    orderAddresses: Array<OrderAddress>;
     version: number;
 
     constructor() {

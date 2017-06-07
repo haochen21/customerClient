@@ -98,6 +98,21 @@ exports.findCustomer = function (req, res) {
     });
 }
 
+exports.findCustomerWithOrderAddress = function (req, res) {
+    var customer = req.session.customer;
+    let id = customer.id;
+    request.get({
+        url: config.remoteServer + '/security/customer/orderAddress/id/' + id
+    }, function (err, response, body) {
+        if (err) {
+            console.error("find customer error:", err, " (status: " + err.status + ")");
+            res.status(404).end();
+        } else {
+            res.status(200).send(body);
+        }
+    });
+}
+
 exports.createCustomer = function (req, res) {
     let customer = req.body.customer;
     console.log(customer);
