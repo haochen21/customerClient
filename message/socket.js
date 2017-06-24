@@ -5,13 +5,18 @@ exports.initialize = function (io) {
     io.on('connection', function (socket) {
 
         socket.on('disconnect', function () {
-            messageSubscribers[socket.customer.id].logNum = messageSubscribers[socket.customer.id].logNum - 1;
-            if (messageSubscribers[socket.customer.id].logNum === 0) {
-                delete messageSubscribers[socket.customer.id];
-                console.log('client disconnect,id is: ' + socket.customer.id + ',name is: ' + socket.customer.loginName + ',time is: 0 ');
-            } else {
-                console.log('client disconnect,id is: ' + socket.customer.id + ',name is: ' + socket.customer.loginName + ',time is: ' + messageSubscribers[socket.customer.id].logNum);
+            if (socket.customer && socket.customer.id) {
+                messageSubscribers[socket.customer.id].logNum = messageSubscribers[socket.customer.id].logNum - 1;
+                if (messageSubscribers[socket.customer.id].logNum === 0) {
+                    delete messageSubscribers[socket.customer.id];
+                    console.log('client disconnect,id is: ' + socket.customer.id + ',name is: ' + socket.customer.loginName + ',time is: 0 ');
+                } else {
+                    console.log('client disconnect,id is: ' + socket.customer.id + ',name is: ' + socket.customer.loginName + ',time is: ' + messageSubscribers[socket.customer.id].logNum);
+                }
+            }else {
+                console.log('socket disconnect error,customer is:'+JSON.stringify(customer));
             }
+
         });
 
         socket.on("set_customer", function (data) {

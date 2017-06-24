@@ -293,8 +293,20 @@ export class CartBillComponent implements OnInit, OnDestroy {
         this.slimLoader.start();
         this.orderResult = null;
         this.cart.takeOut = false;
-        this.cart.takeBeginTime = this.inDoorForm.value.takeTimeRange.takeBeginTime;
-        this.cart.takeEndTime = this.inDoorForm.value.takeTimeRange.takeEndTime;
+        if (this.inDoorForm.value.takeTimeRange) {
+            this.cart.takeBeginTime = this.inDoorForm.value.takeTimeRange.takeBeginTime;
+            this.cart.takeEndTime = this.inDoorForm.value.takeTimeRange.takeEndTime;
+        } else {
+            let todayTakeTime = [];
+            for (var i = 0; i < this.cartTakeTime.length; i++) {
+                if (!this.cartTakeTime[i].nextDay) {
+                    todayTakeTime.push(this.cartTakeTime[i]);
+                }
+            }
+            this.cart.takeBeginTime = todayTakeTime[0].takeBeginTime;
+            this.cart.takeEndTime = todayTakeTime[0].takeEndTime;
+        }
+
         this.cart.remark = this.inDoorForm.value.remark;
 
         this.orderService.purchase(this.cart).then(value => {

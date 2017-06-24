@@ -58,6 +58,10 @@ function createCustomer(code, req, res) {
     //result = fakeData;
 
     //console.log(result);
+    if(!result || !result.data || !result.data.access_token){
+      console.log(result);
+      return;
+    }
     var accessToken = result.data.access_token;
     var openid = result.data.openid;
 

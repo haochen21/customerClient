@@ -24,7 +24,7 @@ router.get('/', function (req, res) {
 });
 
 router.post('/', xmlparser({ trim: false, explicitArray: false }), function (req, res) {
-	console.log(req.body);
+	//console.log(req.body);
 	var weixinEvent = req.body.xml;
 	if (weixinEvent.event === 'subscribe') {
 		var openId = weixinEvent.fromusername;

@@ -24,11 +24,7 @@ exports.sendMessage = function (cart) {
         } else if (cart.status === 4) { //DELIVERED
             templateId = DELIVEREDTEMPLATE;
             data = createDeliverStr(cart);
-        } else if (cart.status === 5) { //CANCELLED
-            templateId = UNPAIDTEMPLATE;
-            data = createCanceledStr(cart);
-        }
-
+        } 
 
         if (templateId !== '') {
             console.log('weixing message: ' + JSON.stringify(data));
