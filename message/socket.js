@@ -14,7 +14,7 @@ exports.initialize = function (io) {
                     console.log('client disconnect,id is: ' + socket.customer.id + ',name is: ' + socket.customer.loginName + ',time is: ' + messageSubscribers[socket.customer.id].logNum);
                 }
             }else {
-                console.log('socket disconnect error,customer is:'+JSON.stringify(customer));
+                console.log('socket disconnect error');
             }
 
         });

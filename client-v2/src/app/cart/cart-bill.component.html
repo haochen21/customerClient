@@ -1,0 +1,147 @@
+<div class="cartbill-container">
+    <div class="header">
+        <div class="header-bar">
+            <span class="title">确认订单</span>
+        </div>
+    </div>
+    <div class="order-form" *ngIf="cart">
+        <section class="rec-addr">
+            <div class="addrinfo1">
+                <span class="recname">收货人：<span>{{cart.customer.name}}</span></span><span class="recphone pull-right">{{cart.customer.phone}}</span>
+            </div>
+            <div class="addrinfo2">
+                <span class="recaddr">收货人卡号：<span>{{cart.customer.cardNo}}</span></span>
+            </div>
+        </section>
+        <section class="good-list">
+            <div class="warehouse">{{cart.merchant.name}}</div>
+            <div class="good-detail" *ngFor="let item of cart.cartItems">
+                <div class="good-img">
+                    <img *ngIf="item.product.imageSource" [src]="imagePreUrl+item.product.imageSource+'-sm'">
+                    <img *ngIf="!item.product.imageSource" src="../../assets/images/orderpic_03.png">
+                </div>
+                <div class="good-info">
+                    <div class="gtitle"><b></b>{{item.name}}</div>
+                    <div class="gprinum">
+                        <span class="gprice">¥{{getItemDiscount(item) | numberFormatPipe}}</span>
+                        <span class="gnum">X&nbsp;&nbsp;{{item.quantity}}</span>
+                    </div>
+                </div>
+                <div class="totalPrice">
+                    <span>¥{{getItemDiscount(item) * item.quantity | numberFormatPipe}}</span>
+                </div>
+            </div>
+        </section>
+        <section class="top-border"></section>
+        <section class="good-settlement">
+            <div class="title">结算</div>
+            <div class="detail">
+                <ul>
+                    <li class="item">
+                        <span class="pull-left">应付总额</span>
+                        <span class="pull-right amount">¥{{getPayPrice() | numberFormatPipe}}</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <section class="good-ack">
+            <form class="good-ack-form" [formGroup]="inDoorForm" (ngSubmit)="onInDoorSubmit()">
+                <div *ngIf="!cart.merchant.takeOut">
+                    <div class="form-group">
+                        <div class="col-sm-10 text-danger" *ngIf="productOpenTimeNoOverlap">
+                            所选商品无法找到商家营业时间
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <md-radio-group formControlName="takeTimeRange">
+                                <div>
+                                    <label class="today-take text-info">今日取货时间</label>
+                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe : false" [value]="ctt" [checked]="isOneTime()">
+                                        {{ctt.desc}}
+                                    </md-radio-button>
+                                </div>
+                                <div class="text-danger next-day">
+                                    <div class="col-sm-10 next-day-div">
+                                        <md-checkbox (change)="changeNextDay($event)">
+                                            选择第二天时间段
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                                <div *ngIf="selectNextDay">
+                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe: true" [value]="ctt">
+                                        {{ctt.desc}}
+                                    </md-radio-button>
+                                </div>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="orderResult && !orderResult.result">
+                        <span class="col-12 form-control-label order-error">{{orderResult.error}}</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 form-control-label">订单备注</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="2" placeholder="订单备注" formControlName="remark"></textarea>
+                            <control-messages [control]="inDoorForm.controls.remark"></control-messages>
+                            <small *ngIf="inDoorForm.controls.remark.pristine">长度0-255个字符</small>
+                        </div>
+                    </div>
+
+                    <button md-raised-button color="warn" >提交订单</button>
+                </div>
+            </form>
+
+            <form class="good-ack-form" [formGroup]="outDoorForm" (ngSubmit)="onOutDoorSubmit()">
+                <div class="outdoor" *ngIf="cart.merchant.takeOut">
+                    <div class="form-group">
+                        <label class="col-sm-2 form-control-label">微信名称:&nbsp;&nbsp;{{customer.loginName}}</label>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 form-control-label">姓名</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="name">
+                            <control-messages [control]="outDoorForm.controls.name"></control-messages>
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="customer.orderAddresses && customer.orderAddresses.length >0">
+                        <label class="col-sm-2 form-control-label">历史送货地址：</label>
+                        <div class="col-sm-10">
+                            <select class="form-control col-sm-10" (change)="changeOrderAddress($event.target.value)">
+                                <option value='' ></option> 
+                                <option *ngFor="let orderAddress of customer.orderAddresses;">{{orderAddress.address}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 form-control-label">地址</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="address">
+                            <control-messages [control]="outDoorForm.controls.address"></control-messages>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 form-control-label">电话</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" formControlName="phone">
+                            <control-messages [control]="outDoorForm.controls.phone"></control-messages>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 form-control-label">订单备注</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="2" placeholder="订单备注" formControlName="remark"></textarea>
+                            <control-messages [control]="outDoorForm.controls.remark"></control-messages>
+                        </div>
+                    </div>
+                    <button md-raised-button color="warn" [disabled]="!outDoorForm.valid">提交订单</button>
+                </div>
+            </form>
+
+        </section>
+    </div>
+    <ng2-toasty position="top-right"></ng2-toasty>
+    <ng2-slim-loading-bar></ng2-slim-loading-bar>
+</div>
+<ticket-navbar></ticket-navbar>

@@ -1,0 +1,203 @@
+.cartbill-container {
+    font: 12px/1.5 "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB",\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
+    color: #333;
+    outline: 0;
+    top: 0;
+    left: 0px;
+    right: 0px;
+    bottom: 55px;
+    margin-left: 0;
+    margin-right: 0;    
+    position: absolute;
+    overflow: auto;
+}
+.header {
+    position: relative;
+    line-height: 45px;
+    height: 45px;
+    text-align: center;
+    background-color: #fff;
+    overflow: hidden;
+    -webkit-transition: height 0.4s;
+    -moz-transition: height 0.4s;
+    transition: height 0.4s;
+    border-bottom: 1px solid #f0f0f0;
+}
+.header-bar {
+    height: 45px;
+}
+.header .backbtn {
+    position: absolute;
+    left: 10px;
+    vertical-align: middle;
+    top: 11px;
+    width: 40px;
+    display: inline-block;
+    height: 23px;
+}
+.header .title {
+    font-size: 18px;
+    max-width: 50%;
+    overflow: hidden;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.rec-addr {
+    position: relative;
+    padding-bottom: 15px;
+    color: #fff;
+    background-color: #626674;
+}
+.rec-addr .addrinfo1 {
+    padding: 15px 40px 10px 15px;
+    font-size: 15px;
+    font-weight: normal;
+}
+.rec-addr .addrinfo2 {
+    padding: 0 40px 0 15px;
+    font-size: 13px;
+    font-weight: normal;
+}
+.good-list {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+.good-list .warehouse {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #333;
+}
+.good-detail {
+    margin-left: 15px;
+    height: 82px;
+    border-top: 1px solid #ddd;
+    font-size: 14px;
+    position: relative;
+}
+.good-img {
+    float: left;
+}
+.good-img img {
+    margin: 10px 1px;
+    height: 60px;
+    width: 60px;
+    border: 1px solid #ddd;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.good-detail .good-info {
+    float: left;
+    width: 152px;
+    padding: 8px 2px 0px 9px;
+}
+.good-info .gtitle {
+    margin-bottom: 8px;
+    height: 36px;
+    line-height: 18px;
+    overflow: hidden;
+}
+.good-info .gprinum {
+    margin-bottom: 8px;
+}
+ .good-info .gtaxrate {
+    color: #999;
+    font-size: 12px;
+}
+.good-info .gprinum .gprice {
+    line-height: 18px;
+}
+.good-info .gprinum .gnum {
+    line-height: 18px;
+    color: #656565;
+}
+.totalPrice {
+    position: absolute;
+    right: 20px;
+    bottom: 5px;    
+    font-weight: bold;
+}
+.top-border {
+    margin-top: 10px;
+    height: 6px;
+    background: url(../../assets/images/bor.png) repeat-x;
+}
+.good-settlement {
+    padding: 0 15px;
+    background-color: #fff;
+}
+.good-settlement .title {
+    font-size: 16px;
+    padding: 14px 0;
+}
+.good-settlement .detail {
+    font-size: 14px;
+}
+.good-settlement .detail ul {
+    margin: 0;
+    padding: 0;
+}
+.good-settlement .detail .item {
+    list-style: none;
+    display: block;
+    padding: 13px 0;
+    margin: 0;
+    border-top: 1px dashed #cbcbcb;
+    color: #666;
+}
+.good-settlement .detail .item:after {
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    content: ".";
+}
+.good-settlement .detail .item .amount {
+    color: #333;
+}
+.good-settlement .detail .item .freightfree {
+    color: #999;
+}
+.good-ack {
+    margin-top: 10px;
+    background-color: #fff;
+}
+.good-ack-form button {
+    float: right;
+    margin: 10px 15px 10px 0
+}
+.order-error {
+    color: #f44336;
+    font-size: 14px;
+}
+.good-ack md-radio-button {
+    display: block;
+}
+.good-ack {   
+    font-size: 14px;
+}
+md-radio-button {
+    padding: 0px 5px 10px 5px;
+}
+.today-take {
+    margin-left: 30px;
+    margin-top: 10px;
+}
+.take-out {
+    border-top: 1px dashed #cbcbcb;
+    padding-top: 10px;
+}
+.next-day {
+    border-top: 15px solid rgb(242, 240, 240);
+    margin-left: -15px;
+    margin-right: -15px;
+}
+.next-day-div {
+    margin-top: 10px;
+}
+.outdoor {
+    padding-top: 10px;
+}

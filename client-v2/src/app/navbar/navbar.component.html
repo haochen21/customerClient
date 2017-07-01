@@ -1,0 +1,27 @@
+<!--底部菜单-->
+<div class="bottom-nav row text-xs-center affix font12">
+    <div class="col-3 pt5 pb5 meun" (click)="menuClick('portal')">
+        <a [class.active]="isPortal" class="block black">
+            <div class="icon m0"><i class="fa fa-home fa-fw"></i></div>
+            <div>首页</div>
+        </a>
+    </div>     
+    <div class="col-3 pt5 pb5 meun order" (click)="menuClick('cart')">
+        <a [class.active]="isCart" class="block black posr">
+            <div class="icon m0"><i class="fa fa-shopping-cart fa-fw"></i></div>
+            <div>购物车<span class="cart-count" *ngIf="totalItem > 0">{{totalItem}}</span></div>
+        </a>
+    </div>    
+    <div class="col-3 pt5 pb5 meun" (click)="menuClick('order')">
+        <a [class.active]="isOrder" class="block black posr">
+            <div class="icon m0"><i class="fa fa-cart-arrow-down fa-fw"></i></div>
+            <div>订单</div>
+        </a>
+    </div>    
+    <div class="col-3 pt5 pb5 meun" (click)="menuClick('my')">
+        <a [class.active]="isMy" class="block black">
+            <div class="icon m0"><i class="fa fa-user fa-fw"></i></div>
+            <div>账户</div>
+        </a>
+    </div>
+</div>

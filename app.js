@@ -24,7 +24,7 @@ kafkaMessage.initialize(io);
 
 app.use(compression());
 
-app.use(express.static(__dirname + '/client/dist'));
+app.use(express.static(__dirname + '/client-v2/dist'));
 
 app.use(expressSession({
     store: new RedisStore({
