@@ -37,13 +37,7 @@ router.get('/callback', function (req, res) {
         createCustomer(code, req, res);
       } else {
         req.session.customer = customer;
-        //console.log('----weixin session exist------' + JSON.stringify(req.session.customer));
-        // if phone_number exist,go home page
-        if (customer.phone) {
-          res.redirect('/?#/portal');
-        } else {
-          res.redirect('/?#/modifyphone');
-        }
+        res.redirect('/?#/portal');
       }
     });
 
@@ -98,7 +92,7 @@ function createCustomer(code, req, res) {
               if (result) {
                 req.session.auth = true;
                 req.session.customer = result;
-                res.redirect('/?#/modifyphone');
+                res.redirect('/?#/portal');
               } else {
                 req.session.auth = false;
                 req.session.customer = null;
@@ -136,7 +130,7 @@ function createCustomer(code, req, res) {
               if (body) {
                 req.session.auth = true;
                 req.session.customer = body;
-                res.redirect('/?#/modifyphone');
+                res.redirect('/?#/portal');
               } else {
                 req.session.auth = false;
                 req.session.customer = null;
@@ -149,11 +143,7 @@ function createCustomer(code, req, res) {
         //console.log('根据openid查询，用户已经存在');
         req.session.auth = true;
         req.session.customer = customer;
-        if (customer.phone) {
-          res.redirect('/?#/portal');
-        } else {
-          res.redirect('/?#/modifyphone');
-        }
+        res.redirect('/?#/portal');
       }
     });
   });

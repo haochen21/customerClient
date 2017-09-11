@@ -40,7 +40,7 @@ export class PortalComponent implements OnInit, OnDestroy {
         this.securityService.findMechantsOfCustomer().then(result => {
             this.merchants = result;
             this.slimLoader.complete();
-            if (this.merchants.length === 1) {
+            if (this.merchants.length === 1 && this.merchants[0].open) {
                 this.goToMerchant(this.merchants[0]);
             }else {
                 this.showBtn = true;

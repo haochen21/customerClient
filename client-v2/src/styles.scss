@@ -287,7 +287,6 @@ a {
 }
 
 .varieties-shop .nav-tabs {
-    background: #f2f2f2;
     width: 100px;
     position: absolute;
     top: 0;
@@ -299,6 +298,7 @@ a {
     flex-direction: column!important;
 }
 .varieties-shop .nav-tabs > li {
+	background: #f2f2f2;
     float: none;
     margin-bottom: 0px;
 }
@@ -317,7 +317,7 @@ a {
 	border: none
 }
 .varieties-shop .nav-tabs .nav-item+.nav-item {
-    margin-left: 0;
+	margin-left: 0;
 }
 .varieties-shop .nav-tabs > li.active {
 	background-color: #fff;

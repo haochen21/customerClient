@@ -189,6 +189,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
+    goToCart(){
+        this.router.navigate(['/cart']);
+    }
+    
     addToast(title: string, msg: string) {
         var toastOptions: ToastOptions = {
             title: title,
