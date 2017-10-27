@@ -57,7 +57,7 @@
                             <md-radio-group formControlName="takeTimeRange">
                                 <div>
                                     <label class="today-take text-info">今日取货时间</label>
-                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe : false" [value]="ctt" [checked]="isOneTime()">
+                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe : false" [value]="ctt" [checked]="selectToday && isOneTime()">
                                         {{ctt.desc}}
                                     </md-radio-button>
                                 </div>
@@ -69,7 +69,7 @@
                                     </div>
                                 </div>
                                 <div *ngIf="selectNextDay">
-                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe: true" [value]="ctt">
+                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe: true" [value]="ctt" [checked]="selectNextDay && isNextDayOneTime()">
                                         {{ctt.desc}}
                                     </md-radio-button>
                                 </div>
@@ -129,13 +129,54 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <div class="col-sm-10 text-danger" *ngIf="productOpenTimeNoOverlap">
+                            所选商品无法找到商家营业时间
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="cart.merchant.openRanges">
+                        <div class="col-sm-10">
+                            商家下单停止时间
+                        </div>    
+                        <div class="col-sm-10 margin-10px text-danger" *ngFor="let range of cart.merchant.openRanges | openRangeTypePipe:openRangeType">
+                            {{range.beginTime | dateFormatPipe:"HH:mm"}}&nbsp;&nbsp;
+                            {{range.endTime | dateFormatPipe:"HH:mm"}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <md-radio-group formControlName="takeTimeRange">
+                                <div>
+                                    <label class="today-take text-info">今日取货时间</label>
+                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe : false" [value]="ctt" [checked]="selectToday && isOneTime()">
+                                        {{ctt.desc}}
+                                    </md-radio-button>
+                                </div>
+                                <div class="text-danger next-day">
+                                    <div class="col-sm-10 next-day-div">
+                                        <md-checkbox (change)="changeNextDay($event)">
+                                            选择第二天时间段
+                                        </md-checkbox>
+                                    </div>
+                                </div>
+                                <div *ngIf="selectNextDay">
+                                    <md-radio-button *ngFor="let ctt of cartTakeTime | openRangePipe: true" [value]="ctt" [checked]="selectNextDay && isNextDayOneTime()">
+                                        {{ctt.desc}}
+                                    </md-radio-button>
+                                </div>
+                            </md-radio-group>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label class="col-sm-2 form-control-label">订单备注</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" rows="2" placeholder="订单备注" formControlName="remark"></textarea>
                             <control-messages [control]="outDoorForm.controls.remark"></control-messages>
                         </div>
                     </div>
-                    <button md-raised-button color="warn" [disabled]="!outDoorForm.valid">提交订单</button>
+                    <div class="col-sm-10 text-danger" *ngIf="errorInfo">
+                            {{errorInfo}}
+                    </div>
+                    <button md-raised-button color="warn" [disabled]="outDoorForm.value.takeTimeRange && (!outDoorForm.valid || isMerchantOff())">提交订单</button>
                 </div>
             </form>
 

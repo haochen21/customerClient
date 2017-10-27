@@ -28,15 +28,21 @@
                                 </p>
                                 <div class="set-count">
                                     <span class="countbox">
-                                        <span class="minus z-dis" (click)="minusQuality(item)"><i [class.active]="item.quantity > 1"></i></span>
-                                    <input type="text" class="ipt" [(ngModel)]="item.quantity" readonly="readonly" autocomplete="off" min="1" max="5">
-                                    <span class="plus" (click)="addQuality(item)"><i [class.disable]="item.quantity > 5"></i></span>
+                                        <span class="minus z-dis" (click)="minusQuality(item)">
+                                            <i [class.active]="item.quantity > 1"></i>
+                                        </span>
+                                        <input type="text" class="ipt" [(ngModel)]="item.quantity" readonly="readonly" autocomplete="off" min="1" max="5">
+                                        <span class="plus" (click)="addQuality(item)">
+                                            <i [class.disable]="item.quantity > 5"></i>
+                                        </span>
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="product-price pull-right">
-                            <p class="price">¥<i>{{getItemDiscount(cart,item) | numberFormatPipe}}</i></p>
+                            <p class="price">¥
+                                <i>{{getItemDiscount(cart,item) | numberFormatPipe}}</i>
+                            </p>
                             <p class="amount">×{{item.quantity}}</p>
                             <b class="product-remove" (click)="removeItem(cart,item)"></b>
                         </div>
@@ -44,10 +50,19 @@
                 </li>
             </ul>
             <div class="gather">
-                <span class="pull-left">已选商品<i>{{getTotalQuality(cart)}}</i>件</span>
+                <span class="pull-left">已选商品
+                    <i>{{getTotalQuality(cart)}}</i>件</span>
                 <div class="rpart pull-right">
-                    <p class="total">商品总额：<span class="val">¥<i class="f-fw">{{getPayPrice(cart) | numberFormatPipe}}</i></span></p>
-                    <button md-raised-button color="warn" (click)="purchase(cart)">结算</button>
+                    <p class="total">商品总额：
+                        <span class="val">¥
+                            <i class="f-fw">{{getPayPrice(cart) | numberFormatPipe}}</i>
+                        </span>
+                    </p>
+                    <div class="alert alert-danger" *ngIf="!isMinimumOrder(cart)">
+                        最少订单数额：¥
+                        <strong>{{cart.merchant.minimumOrder | numberFormatPipe}}</strong> 。还差：¥ {{getLeftMinimumOrder(cart) | numberFormatPipe}}
+                    </div>
+                    <button md-raised-button color="warn" (click)="purchase(cart)" [disabled]="!isMinimumOrder(cart)">结算</button>
                 </div>
             </div>
         </div>

@@ -106,7 +106,7 @@ export class CartComponent implements OnInit, OnDestroy {
         return payPrice;
     }
 
-    getItemDiscount(cart:Cart,item: CartItem) {
+    getItemDiscount(cart: Cart, item: CartItem) {
         let price = item.unitPrice;
         if (cart.merchant.discountType != null) {
             if (cart.merchant.discountType == DiscountType.PERCNET) {
@@ -127,6 +127,26 @@ export class CartComponent implements OnInit, OnDestroy {
     saveCarts() {
         localStorage.setItem('carts', JSON.stringify(this.carts));
         this.cartService.changeCarts(this.carts);
+    }
+
+    isMinimumOrder(cart: Cart) {
+        if (cart.merchant.minimumOrder != null) {
+            let totalPrice = this.getPayPrice(cart);
+            if (totalPrice >= cart.merchant.minimumOrder) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    getLeftMinimumOrder(cart: Cart) {
+        if (cart.merchant.minimumOrder != null) {
+            let totalPrice = this.getPayPrice(cart);
+            return cart.merchant.minimumOrder - totalPrice;
+        }
+        return 0;
     }
 }
 

@@ -27,6 +27,8 @@ export class Merchant {
     openRanges: Array<OpenRange>;
     version: number;
     concern: boolean;
+    minimumOrder: number;
+    parentId: number;
 
     introduce: MerchantIntro;
 

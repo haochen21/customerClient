@@ -9,6 +9,7 @@ import { MapToIterable } from './MapToIterable.pipe';
 import { NumberFormatPipe } from './NumberFormat.pipe';
 import { OrderByPipe } from './Sort.pipe';
 import { OpenRangePipe } from './OpenRange.pipe';
+import { OpenRangeTypePipe } from './OpenRangeType.pipe';
 
 import { ControlMessages } from './control-messages.component';
 
@@ -21,6 +22,7 @@ import { ControlMessages } from './control-messages.component';
         NumberFormatPipe,
         OrderByPipe,
         OpenRangePipe,
+        OpenRangeTypePipe,
         ControlMessages
     ],
     exports: [
@@ -30,6 +32,7 @@ import { ControlMessages } from './control-messages.component';
         NumberFormatPipe,
         OrderByPipe,
         OpenRangePipe,
+        OpenRangeTypePipe,
         ControlMessages,
         CommonModule,
         FormsModule,
