@@ -1,21 +1,22 @@
-.portal-container {
+productsearch-container {
+    font: 12px/1.5 "Helvetica Neue",Helvetica,Arial,"Hiragino Sans GB",\5FAE\8F6F\96C5\9ED1,tahoma,simsun,sans-serif;
+    color: #333;
+    outline: 0;
     top: 0;
     left: 0px;
     right: 0px;
-    bottom: 45px;
-    margin-left: 0;
-    margin-right: 0;    
+    bottom: 50px;
     position: absolute;
     overflow: auto;
 }
-.table-btns{
-    position: relative;
-    height: 70px;
+.row {
+  display: block;
 }
-.btn-group {
-    float: right;
-    margin-top: 10px;
-    margin-right: 10px;
+.demo-secondary-text {
+  color: rgba(0, 0, 0, 0.54);
+}
+.query-panel {
+  margin: 15px 0 25px 0;
 }
 a.list-group-item, button.list-group-item {
     color: #555;
@@ -46,6 +47,16 @@ a {
 .add-cart-btn {
     background-color: #00BCD4!important;
 }
-.img-container {
-    padding-top: 5px;
+div.config{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    font-size: 13px;
+    opacity: 0.8;
+    padding: 0.4rem 1.25rem;
+    border-top-left-radius: 10rem;
+    border-bottom-left-radius: 10rem;
+}
+.show-panel {
+    margin-bottom: 45px;
 }

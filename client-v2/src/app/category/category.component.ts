@@ -83,13 +83,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
                         other.name = '其它';
                         this.categorys.push(other);
 
-                        if(this.merchant.introduce){
-                            let introduce:Category = new Category();
+                        if (this.merchant.showIntroduce && this.merchant.introduce) {
+                            let introduce: Category = new Category();
                             introduce.name = '简介';
                             introduce.id = -100;
                             this.categorys.unshift(introduce);
                         }
-                        
+
                         console.log(value);
                         return this.storeService.findProductByMerchantId(this.merchant.id);
                     }).then(value => {
@@ -103,6 +103,21 @@ export class CategoryComponent implements OnInit, OnDestroy {
                                 }
                             });
                             category.products = productOfCategory;
+                            category.products.sort(function (a, b) {
+                                if (a.sequence == null) {
+                                    return 1;
+                                }
+                                if (b.sequence == null) {
+                                    return -1;
+                                }
+                                if (a.sequence > b.sequence) {
+                                    return 1;
+                                }
+                                if (a.sequence < b.sequence) {
+                                    return -1;
+                                }
+                                return 0;
+                            });
                         }
                         console.log(value);
                     }).catch(error => {
@@ -189,10 +204,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
-    goToCart(){
+    goToCart() {
         this.router.navigate(['/cart']);
     }
-    
+
     addToast(title: string, msg: string) {
         var toastOptions: ToastOptions = {
             title: title,

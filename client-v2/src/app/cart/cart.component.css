@@ -202,7 +202,6 @@
     color: #b2b2b2;
 }
 .gather .val {
-    width: 60px;
     display: inline-block;
 }
 .gather .total {
@@ -212,6 +211,17 @@
 .gather .total i {
     color: #d31b43;
 }
+.gather .total i.packagefee {
+    color:#656565;
+    font-style:normal;
+}
+
+.gather .total i.packagefee  i {
+    color:#656565;
+    font-style:normal;
+    padding: 0 4px;
+}
+
 .gather .total i {
     font-weight: bold;
 }

@@ -1,13 +1,6 @@
-<div class="portal-container" *ngIf="showBtn">
-  <div class="table-btns">
-    <div class="btn-group">
-      <button md-mini-fab (click)="addMerchant($event)">
-                 <md-icon fontSet="fa" fontIcon="fa-search"></md-icon>
-              </button>
-    </div>
-  </div>
+<div class="delmerchant-container">
   <div *ngFor="let m of merchants | orderBy : 'name' : true" class="list-group">
-    <a class="list-group-item" (click)="goToMerchant(m)">
+    <a class="list-group-item">
       <div class="media-box">
         <div class="pull-left img-container">
           <img *ngIf="m.imageSource" [src]="imagePreUrl+m.imageSource+'-sm'" style="width:60px; height:60px;">
@@ -15,6 +8,7 @@
         </div>
         <div class="media-box-body clearfix">
           <div class="body-container">
+            <button type="button" class="btn btn-warning btn-sm cancel-care" (click)="cancelConcern($event,m)"><i class="fa fa-trash"></i></button>
             <p class="m0">{{m.shortName}}</p>
             <p class="m0 text-muted text-danger" *ngIf="!m.open"> 
               <small>本店暂停营业</small>

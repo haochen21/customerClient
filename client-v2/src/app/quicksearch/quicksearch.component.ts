@@ -13,11 +13,11 @@ import { Merchant } from '../model/Merchant';
 const URL = 'http://shop.km086.com:8080/ticketServer/security/merchant/image/';
 
 @Component({
-    selector: 'ticket-portal',
-    templateUrl: './portal.component.html',
-    styleUrls: ['./portal.component.css']
+    selector: 'quicksearch-portal',
+    templateUrl: './quicksearch.component.html',
+    styleUrls: ['./quicksearch.component.css']
 })
-export class PortalComponent implements OnInit, OnDestroy {
+export class QuickSearchComponent implements OnInit, OnDestroy {
 
     merchants: Array<Merchant> = new Array<Merchant>();
 
@@ -66,7 +66,7 @@ export class PortalComponent implements OnInit, OnDestroy {
 
     goToMerchant(merchant: Merchant) {
         if (merchant.open) {
-            this.router.navigate(['/category', merchant.id]);
+            this.router.navigate(['/quicksearch', merchant.id]);
         }
     }
 }

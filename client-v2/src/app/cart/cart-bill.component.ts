@@ -113,12 +113,15 @@ export class CartBillComponent implements OnInit, OnDestroy {
             (<FormControl>this.outDoorForm.controls['phone']).setValue(this.customer.phone);
             (<FormControl>this.outDoorForm.controls['address']).setValue(address);
 
-
             this.sub = this.route.params.subscribe(params => {
                 let merchantId = +params['merchantId']; // (+) converts string 'id' to a number
                 for (let cart of this.carts) {
                     if (cart.merchant.id === merchantId) {
                         this.cart = cart;
+
+                        (<FormControl>this.outDoorForm.controls['remark']).setValue(this.cart.remark);
+                        (<FormControl>this.inDoorForm.controls['remark']).setValue(this.cart.remark);
+
                         this.securityService.findOpenRangesByMerchantId(this.cart.merchant.id).then(value => {
                             this.covertOpenRangeTimeToDate(value.openRanges);
                             this.cart.merchant = value;
@@ -205,6 +208,9 @@ export class CartBillComponent implements OnInit, OnDestroy {
                 }
                 payPrice = payPrice - this.cart.merchant.amount * numberOfItem;
             }
+        }
+        if (this.cart.merchant.packageFee != null) {
+            payPrice = payPrice + this.cart.merchant.packageFee;
         }
         return payPrice;
     }

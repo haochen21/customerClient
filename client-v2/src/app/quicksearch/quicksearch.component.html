@@ -1,11 +1,4 @@
-<div class="portal-container" *ngIf="showBtn">
-  <div class="table-btns">
-    <div class="btn-group">
-      <button md-mini-fab (click)="addMerchant($event)">
-                 <md-icon fontSet="fa" fontIcon="fa-search"></md-icon>
-              </button>
-    </div>
-  </div>
+<div class="quicksearch-container" *ngIf="showBtn">
   <div *ngFor="let m of merchants | orderBy : 'name' : true" class="list-group">
     <a class="list-group-item" (click)="goToMerchant(m)">
       <div class="media-box">

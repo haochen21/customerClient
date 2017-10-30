@@ -7,10 +7,15 @@
     <div class="order-form" *ngIf="cart">
         <section class="rec-addr">
             <div class="addrinfo1">
-                <span class="recname">收货人：<span>{{cart.customer.name}}</span></span><span class="recphone pull-right">{{cart.customer.phone}}</span>
+                <span class="recname">收货人：
+                    <span>{{cart.customer.name}}</span>
+                </span>
+                <span class="recphone pull-right">{{cart.customer.phone}}</span>
             </div>
             <div class="addrinfo2">
-                <span class="recaddr">收货人卡号：<span>{{cart.customer.cardNo}}</span></span>
+                <span class="recaddr">收货人卡号：
+                    <span>{{cart.customer.cardNo}}</span>
+                </span>
             </div>
         </section>
         <section class="good-list">
@@ -21,7 +26,8 @@
                     <img *ngIf="!item.product.imageSource" src="../../assets/images/orderpic_03.png">
                 </div>
                 <div class="good-info">
-                    <div class="gtitle"><b></b>{{item.name}}</div>
+                    <div class="gtitle">
+                        <b></b>{{item.name}}</div>
                     <div class="gprinum">
                         <span class="gprice">¥{{getItemDiscount(item) | numberFormatPipe}}</span>
                         <span class="gnum">X&nbsp;&nbsp;{{item.quantity}}</span>
@@ -29,6 +35,15 @@
                 </div>
                 <div class="totalPrice">
                     <span>¥{{getItemDiscount(item) * item.quantity | numberFormatPipe}}</span>
+                </div>
+            </div>
+            <div class="good-detail packagefee" *ngIf="cart.merchant.packageFee">
+                <div class="good-info">
+                    <div class="gtitle">
+                        <b></b>打包费用</div>
+                </div>
+                <div class="totalPrice">
+                    <span>¥{{cart.merchant.packageFee | numberFormatPipe}}</span>
                 </div>
             </div>
         </section>
@@ -89,7 +104,7 @@
                         </div>
                     </div>
 
-                    <button md-raised-button color="warn" >提交订单</button>
+                    <button md-raised-button color="warn">提交订单</button>
                 </div>
             </form>
 
@@ -109,7 +124,7 @@
                         <label class="col-sm-2 form-control-label">历史送货地址：</label>
                         <div class="col-sm-10">
                             <select class="form-control col-sm-10" (change)="changeOrderAddress($event.target.value)">
-                                <option value='' ></option> 
+                                <option value=''></option>
                                 <option *ngFor="let orderAddress of customer.orderAddresses;">{{orderAddress.address}}</option>
                             </select>
                         </div>
@@ -136,10 +151,9 @@
                     <div class="form-group" *ngIf="cart.merchant.openRanges">
                         <div class="col-sm-10">
                             商家下单停止时间
-                        </div>    
+                        </div>
                         <div class="col-sm-10 margin-10px text-danger" *ngFor="let range of cart.merchant.openRanges | openRangeTypePipe:openRangeType">
-                            {{range.beginTime | dateFormatPipe:"HH:mm"}}&nbsp;&nbsp;
-                            {{range.endTime | dateFormatPipe:"HH:mm"}}
+                            {{range.beginTime | dateFormatPipe:"HH:mm"}}&nbsp;&nbsp; {{range.endTime | dateFormatPipe:"HH:mm"}}
                         </div>
                     </div>
                     <div class="form-group">
@@ -174,15 +188,15 @@
                         </div>
                     </div>
                     <div class="col-sm-10 text-danger" *ngIf="errorInfo">
-                            {{errorInfo}}
+                        {{errorInfo}}
                     </div>
                     <button md-raised-button color="warn" [disabled]="outDoorForm.value.takeTimeRange && (!outDoorForm.valid || isMerchantOff())">提交订单</button>
                 </div>
             </form>
 
         </section>
+        </div>
+        <ng2-toasty position="top-right"></ng2-toasty>
+        <ng2-slim-loading-bar></ng2-slim-loading-bar>
     </div>
-    <ng2-toasty position="top-right"></ng2-toasty>
-    <ng2-slim-loading-bar></ng2-slim-loading-bar>
-</div>
-<ticket-navbar></ticket-navbar>
+    <ticket-navbar></ticket-navbar>

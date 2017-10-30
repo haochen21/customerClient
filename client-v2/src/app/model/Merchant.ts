@@ -29,7 +29,9 @@ export class Merchant {
     concern: boolean;
     minimumOrder: number;
     parentId: number;
-
+    showIntroduce: boolean;
+    packageFee: number;
+    
     introduce: MerchantIntro;
 
     constructor() {

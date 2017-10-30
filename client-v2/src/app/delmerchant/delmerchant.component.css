@@ -1,4 +1,4 @@
-.portal-container {
+.delmercant-container {
     top: 0;
     left: 0px;
     right: 0px;
@@ -48,4 +48,11 @@ a {
 }
 .img-container {
     padding-top: 5px;
+}
+.trash-btn {
+    padding-top: 10px;
+}
+.cancel-care {
+    float: right;
+    margin-top: 10px;
 }

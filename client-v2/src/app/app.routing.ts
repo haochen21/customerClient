@@ -12,9 +12,11 @@ export const appRoutes: Routes = [
   { path: 'cart', loadChildren: './cart/cart.module#CartModule' },
   { path: 'category', loadChildren: './category/category.module#CategoryModule' },
   { path: 'merchant', loadChildren: './merchant/merchant.module#MerchantModule' },
+  { path: 'delmerchant', loadChildren: './delmerchant/delmerchant.module#DelMerchantModule' },
   { path: 'my', loadChildren: './my/my.module#MyModule' },
   { path: 'modifyuser', loadChildren: './modifyuser/modifyuser.module#ModifyUserModule' },
-  { path: 'modifyphone', loadChildren: './modifyphone/modifyphone.module#ModifyPhoneModule' },  
+  { path: 'modifyphone', loadChildren: './modifyphone/modifyphone.module#ModifyPhoneModule' }, 
+  { path: 'quicksearch', loadChildren: './quicksearch/quicksearch.module#QuickSearchModule' }, 
   { path: '**', component: NoContent },
 ];
 

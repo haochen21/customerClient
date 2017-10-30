@@ -56,6 +56,7 @@
                     <p class="total">商品总额：
                         <span class="val">¥
                             <i class="f-fw">{{getPayPrice(cart) | numberFormatPipe}}</i>
+                            <i class="f-fw packagefee" *ngIf="cart.merchant.packageFee"><i class="fa fa-plus"></i>打包费用&nbsp;{{cart.merchant.packageFee | numberFormatPipe}}</i>
                         </span>
                     </p>
                     <div class="alert alert-danger" *ngIf="!isMinimumOrder(cart)">

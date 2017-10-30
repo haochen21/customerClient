@@ -108,6 +108,8 @@ router.route('/product/:id')
     .get(service.store.findProduct);
 router.route('/product/find/merchant/:merchantId')
     .get(service.store.findProductByMerchantId);
+router.route('/product/quicksearch/:merchantId/:code')
+    .get(service.store.quickSearch);    
 
 router.route('/cart/page')
     .post(service.order.pageCartByFilter);

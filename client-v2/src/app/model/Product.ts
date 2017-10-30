@@ -20,6 +20,8 @@ export class Product {
     createdOn: Date;
     updatedOn: Date;
     status: ProductStatus;
+    sequence: number;
+    code: string;
     category: Category;
     merchant: Merchant;
     openRanges: Array<OpenRange>;

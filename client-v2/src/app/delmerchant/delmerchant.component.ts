@@ -13,17 +13,15 @@ import { Merchant } from '../model/Merchant';
 const URL = 'http://shop.km086.com:8080/ticketServer/security/merchant/image/';
 
 @Component({
-    selector: 'ticket-portal',
-    templateUrl: './portal.component.html',
-    styleUrls: ['./portal.component.css']
+    selector: 'ticket-delmerchant',
+    templateUrl: './delmerchant.component.html',
+    styleUrls: ['./delmerchant.component.css']
 })
-export class PortalComponent implements OnInit, OnDestroy {
+export class DelMerchantComponent implements OnInit, OnDestroy {
 
     merchants: Array<Merchant> = new Array<Merchant>();
 
     imagePreUrl: string = URL;
-
-    showBtn:boolean = false;
 
     constructor(
         private router: Router,
@@ -40,11 +38,6 @@ export class PortalComponent implements OnInit, OnDestroy {
         this.securityService.findMechantsOfCustomer().then(result => {
             this.merchants = result;
             this.slimLoader.complete();
-            if (this.merchants.length === 1 && this.merchants[0].open) {
-                this.goToMerchant(this.merchants[0]);
-            }else {
-                this.showBtn = true;
-            }
         }).catch(error => {
             console.log(error);
             this.slimLoader.complete();
@@ -58,15 +51,14 @@ export class PortalComponent implements OnInit, OnDestroy {
 
     }
 
-    addMerchant(event) {
+    cancelConcern(event, merchant: Merchant) {
+        let merchantIds: Array<number> = this.merchants.filter(m => m.id !== merchant.id).map(m => m.id);
+        this.securityService.saveMerchantsOfCustomer(merchantIds).then(result => {
+            this.merchants = result;
+        }).catch(error => {
+            console.log(error)
+        });
         event.stopPropagation();
         event.preventDefault();
-        this.router.navigate(['/merchant']);
-    }
-
-    goToMerchant(merchant: Merchant) {
-        if (merchant.open) {
-            this.router.navigate(['/category', merchant.id]);
-        }
     }
 }

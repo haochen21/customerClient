@@ -42,3 +42,18 @@ exports.findProductByMerchantId = function (req, res) {
         }
     });
 }
+
+exports.quickSearch = function (req, res) {
+    let merchantId = req.params.merchantId;
+    let code = req.params.code;
+    request.get({
+        url: config.remoteServer + '/store/product/quicksearch/' + merchantId+'/'+encodeURI(code)
+    }, function (err, response, body) {
+        if (err) {
+            console.error("find products error:", err, " (status: " + err.status + ")");
+            res.status(404).end();
+        } else {
+            res.status(200).send(body);
+        }
+    });
+}
