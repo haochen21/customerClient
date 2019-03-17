@@ -86,7 +86,7 @@ function createTakeStr(cart) {
     json.first.color = '#173177';
 
     json.OrderSn = {};
-    json.OrderSn.value = cart.id;
+    json.OrderSn.value = cart.id + '(提货码：'+ cart.takeNo+' )';
 
     json.OrderStatus = {};
     if (!cart.takeOut) {
