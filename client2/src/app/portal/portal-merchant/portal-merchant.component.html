@@ -1,0 +1,33 @@
+<div class="portal-container" *ngIf="showBtn">
+  <div class="table-btns">
+    <div class="btn-group">
+      <button class="btn-floating btn-sm btn-info waves-effect waves-light" (click)="addMerchant($event)">
+        <fa-icon [icon]="faSearch"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngFor="let m of merchants | orderBy : 'name' : true" class="list-group">
+    <a class="list-group-item" (click)="goToMerchant(m)">
+      <div class="media-box">
+        <div class="float-left img-container">
+          <img *ngIf="m.imageSource" [src]="imagePreUrl+m.imageSource+'-sm.png'" style="width:60px; height:60px;">
+          <img *ngIf="!m.imageSource" src="../../assets/images/merchant-sm.png" style="width:60px; height:60px;">
+        </div>
+        <div class="media-box-body clearfix">
+          <div class="body-container">
+            <p class="m0">{{m.shortName}}</p>
+            <p class="m0 text-muted text-danger" *ngIf="!m.open">
+              <small>本店暂停营业</small>
+            </p>
+            <p class="m0 text-muted">
+              <small>全称 -- {{m.name}}</small>
+            </p>
+            <p class="m0 text-muted">
+              <small>地址 -- {{m.address}}</small>
+            </p>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

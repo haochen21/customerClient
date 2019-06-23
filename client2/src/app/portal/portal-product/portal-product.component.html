@@ -1,0 +1,51 @@
+<div class="card" *ngIf="product">
+    <img *ngIf="product.imageSource" [src]="imagePreUrl+product.imageSource+'-md'">
+    <div class="card-body product-name">
+        <h6 class="card-title">{{product.name}}<span class="offline" *ngIf="product.status === 1">（商品暂时下架）</span></h6>
+    </div>
+    <div class="card-body">
+        <p class="card-text">{{product.description}}</p>
+    </div>
+    <div class="card-body buy-price">
+        <div class="product-property" *ngIf="product.property1">
+            <mat-radio-group [(ngModel)]="product.selectedProperty1">
+                <mat-radio-button class="product-property-radio-button"
+                    *ngFor="let property of product.property1 | stringToArrayPipe : '='" [value]="property">
+                    {{ property }}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="product-property" *ngIf="product.property2">
+            <mat-radio-group [(ngModel)]="product.selectedProperty2">
+                <mat-radio-button class="product-property-radio-button"
+                    *ngFor="let property of product.property2 | stringToArrayPipe : '='" [value]="property">
+                    {{ property }}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="price">
+            <strong class="strong-color">{{getProductDiscount() | number }}</strong>
+            <span class="strong-color">元</span>
+        </div>
+        <button class="btn-floating btn-sm btn-info waves-effect waves-light"
+            [disabled]="product.status === 1 || cartTakeTime.length === 0 || (!product.infinite && product.unitsInStock === 0)"
+            (click)="addCart(product)">
+            加入购物车
+        </button>
+    </div>
+    <div class="card-body stock-info">
+        <div class="card-text"><span class="text-muted">商品库存：</span><span>{{getStockDescription()}}</span></div>
+        <div class="card-text merchant-open">营业时间：</div>
+        <div class="card-text merchant-time" *ngFor="let cct of cartTakeTime | openRangePipe : false">{{cct.desc}}</div>
+        <div>第二天时间段: </div>
+        <div class=" card-text merchant-time" *ngFor="let cct of cartTakeTime | openRangePipe : true">{{cct.desc}}</div>
+    </div>
+    <div class="card-body merchant-info">
+        <div class="merchant-head">商家信息</div>
+        <div class="merchant-detail">
+            <h5 class="title single-line"> {{merchant.name}}</h5>
+            <div class="address single-line">{{merchant.address}}</div>
+            <div class="merchant-phone"><i class="fa fa-phone"></i>{{merchant.phone}}</div>
+        </div>
+    </div>
+</div>

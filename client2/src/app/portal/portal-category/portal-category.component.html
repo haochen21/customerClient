@@ -1,0 +1,51 @@
+<Tabs [activeTab]="0" [page]="5" [tabBarBackgroundColor]="'#fff'" [tabBarPosition]="'left'" [tabDirection]="'vertical'">
+    <TabPane *ngFor="let c of categorys;let i = index" [title]="c.name">
+        <div *ngIf="c.id === -100">
+            <div [innerHtml]="merchant.introduce.introduce"></div>
+        </div>
+        <div *ngIf="c.id >= 0">
+            <div *ngFor="let p of c.products" class="list-group">
+                <a class="list-group-item">
+                    <div class="media-box">
+                        <div class="float-left">
+                            <img *ngIf="p.imageSource" [src]="imagePreUrl+p.imageSource+'-sm.png'"
+                                style="width:50px; height:50px;">
+                            <img *ngIf="!p.imageSource" src="../../assets/images/orderpic_03.png"
+                                style="width:50px; height:50px;">
+                        </div>
+                        <div class="float-right">
+                            <button class="btn-floating btn-sm btn-info waves-effect waves-light"
+                                [disabled]="p.status === 1 ||(!p.infinite && p.unitsInStock === 0)"
+                                (click)="addCart($event,p)">
+                                <fa-icon [icon]="faPlus"></fa-icon>
+                            </button>
+                        </div>
+                        <div class="media-box-body clearfix" (click)="detail(p)">
+                            <div class="body-container">
+                                <p class="m0">{{p.name}}</p>
+                                <p class="m0 text-muted">
+                                    <small>单价：</small><small class="green">￥{{getProductDiscount(p) | number }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="product-properties" *ngIf="p.showProperties">
+                    <div *ngFor="let productProperty of p.productProperties">
+                        <ListItem class="pop-property" Picker [extra]="productProperty.name" [arrow]="'horizontal'"
+                            [data]="productProperty.values" [(ngModel)]="productProperty.selectedValue">
+                            {{ productProperty.selectedValue? productProperty.selectedValue : productProperty.defaultValue}}
+                        </ListItem>
+                    </div>
+                    <div class="product-property-btn">
+                        <button type="submit" class="btn btn-info btn-block"
+                            (click)="addCartWithProperty($event,p)">完&nbsp;成</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </TabPane>
+</Tabs>
+<div class="config alert alert-info" (click)="goToCart()">
+    选好了
+</div>

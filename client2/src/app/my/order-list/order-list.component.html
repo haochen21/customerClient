@@ -1,0 +1,92 @@
+<mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="tabChange($event)">
+    <mat-tab *ngFor="let tab of tabs" [label]="tab.label">
+        <div>
+            <ul class="notification-body" *ngFor="let cart of cartPage.content">
+                <li>
+                    <span>
+                        <div class="bar-holder no-padding">
+                            <div class="bar-info">
+                                <div class="bar-btn">
+                                    <button type="button" class="btn btn-sm btn-light" (click)="showDetail(cart)">
+                                        {{cart.showDetail?'收起':'详情'}}
+                                    </button>
+                                </div>
+                                <div class="note no-margin">
+                                    <span>订单编号：</span>
+                                    <span>{{cart.id}}</span>
+                                </div>
+                                <div class="note no-margin">
+                                    <span>订单状态：</span>
+                                    <span style="font-size: 15px;" *ngIf="cart.needPay">
+                                        <fa-icon class="text-danger" [icon]="faYenSign"></fa-icon>
+                                    </span>
+                                    <span style="font-size: 12px;" *ngIf="!cart.needPay">
+                                        <fa-icon class="text-success" [icon]="faCheck"></fa-icon>
+                                    </span>
+                                    {{cart.status | cartStatusFormatPipe}}
+                                </div>
+                                <div class="note no-margin">
+                                    <span>商品数量：</span>
+                                    <span>{{getProductNumber(cart)}}</span>
+                                </div>
+                                <div class="note no-margin">
+                                    <span>生成时间：</span>
+                                    <span>{{cart.createdOn | amDateFormat:"YYYY-MM-DD HH:mm:ss" }}</span>
+                                </div>
+                                <div class="note no-margin" *ngIf="!cart.takeOut">
+                                    <span>取货时段：</span>
+                                    <span>{{cart.takeBeginTime | amDateFormat:"YYYY-MM-DD" }}</span>
+                                    <span>{{cart.takeBeginTime | amDateFormat:" HH:mm:ss" }} -
+                                        {{cart.takeEndTime | amDateFormat:"HH:mm:ss" }}</span>
+                                </div>
+                                <div class="note no-margin text-danger" *ngIf="cart.status === 0">
+                                    <span>支付时限：</span>
+                                    <span>{{cart.payTime | amDateFormat:"YYYY-MM-DD HH:mm:ss" }}</span>
+                                </div>
+                                <div class="note no-margin" *ngIf="cart.remark != null">
+                                    <span>商品备注：</span>
+                                    <span class="break-line">{{cart.remark}}</span>
+                                </div>
+                            </div>
+                            <div class="bar-detail" *ngIf="cart.showDetail">
+                                <table class="table">
+                                    <tbody>
+                                        <tr *ngFor="let cartItem of cart.cartItems">
+                                            <td>{{cartItem.name}}</td>
+                                            <td>
+                                                <fa-icon class="padding-right-5" [icon]="faYenSign"></fa-icon>
+                                                {{cartItem.unitPrice}}
+                                            </td>
+                                            <td>{{cartItem.quantity}}</td>
+                                            <td>
+                                                <fa-icon class="padding-right-5" [icon]="faYenSign"></fa-icon>
+                                                {{cartItem.totalPrice}}
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="cart.merchant.packageFee">
+                                            <td colspan="3">打包费用</td>
+                                            <td>
+                                                <fa-icon class="padding-right-5" [icon]="faYenSign"></fa-icon>
+                                                {{cart.merchant.packageFee}}
+                                            </td>
+                                        </tr>
+                                        <tr class="dashed">
+                                            <td colspan="3"></td>
+                                            <td>
+                                                <fa-icon class="padding-right-5" [icon]="faYenSign"></fa-icon>
+                                                {{cart.totalPrice}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </span>
+                </li>
+            </ul>
+            <div class="text-center margin-top-10" *ngIf="cartPage.content && !cartPage.last">
+                <button type="button" class="btn btn-secondary" (click)="queryNextPage()">下一页</button>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>

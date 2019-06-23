@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="query-panel">
+        <form [formGroup]="form">
+            <div class="form-group row">
+                <label class="col-md-2 form-control-label">店铺名称</label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" formControlName="name"
+                        (ngModelChange)="valuechange($event)">
+                    <div *ngIf="getFormControl('name').invalid">
+                        店铺名称长度2-20个字符
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="show-panel">
+        <List>
+            <ListItem multipleLine *ngFor="let m of merchants | orderBy : 'name' : true" [extra]="_button">
+                {{m.shortName}}
+                <Brief>
+                    <span class="demo-secondary-text">全称 -- </span>
+                    <span>{{m.name}}</span>
+                </Brief>
+                <Brief>
+                    <span class="demo-secondary-text">地址 -- </span>
+                    <span>{{m.address}}</span>
+                </Brief>
+                <ng-template #_button>
+                    <button class="btn btn-info" [attr.disabled]="m.concern == true ? true : null"
+                        (click)="addConcern(m)">{{m.concern?'已关注':'关注'}}</button>
+                </ng-template>
+            </ListItem>
+        </List>
+    </div>
+</div>

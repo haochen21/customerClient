@@ -1,0 +1,14 @@
+{
+    "/api": {
+      "target": "http://shop.km086.com",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    },
+    "/weixin": {
+      "target": "http://shop.km086.com",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }

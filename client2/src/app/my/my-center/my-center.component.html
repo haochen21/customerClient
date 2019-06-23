@@ -1,0 +1,35 @@
+<TabBar [barTintColor]="'white'" [ngStyle]="tabbarStyle" [activeTab]="3" (onPress)="tabBarTabOnPress($event)">
+    <TabBarItem [title]="'首页'" [key]="'portal'" [icon]="icon1" [selectedIcon]="icon11">
+      <ng-template #icon1>
+        <div><fa-icon [icon]="faHome"></fa-icon></div>
+      </ng-template>
+      <ng-template #icon11>
+        <div><fa-icon [icon]="faHome" style="color: rgb(16, 142, 233);"></fa-icon></div>
+      </ng-template>    
+    </TabBarItem>
+    <TabBarItem [title]="'购物车'" [badge]="totalItem" [key]="'cart'" [icon]="icon2" [selectedIcon]="icon22">
+      <ng-template #icon2>
+        <div><fa-icon [icon]="faCartArrowDown"></fa-icon></div>
+      </ng-template>
+      <ng-template #icon22>
+        <div><fa-icon [icon]="faCartArrowDown" style="color: rgb(16, 142, 233);"></fa-icon></div>
+      </ng-template>
+    </TabBarItem>
+    <TabBarItem [title]="'订单'" [key]="'order'" [icon]="icon3" [selectedIcon]="icon33">
+      <ng-template #icon3>
+        <div><fa-icon [icon]="faYenSign"></fa-icon></div>
+      </ng-template>
+      <ng-template #icon33>
+        <div><fa-icon [icon]="faYenSign" style="color: rgb(16, 142, 233);"></fa-icon></div>
+      </ng-template>
+    </TabBarItem>
+    <TabBarItem [title]="'账户'" [key]="'my'" [icon]="icon4" [selectedIcon]="icon44">
+      <ng-template #icon4>
+        <div><fa-icon [icon]="faUserCircle"></fa-icon></div>
+      </ng-template>
+      <ng-template #icon44>
+        <div><fa-icon [icon]="faUserCircle" style="color: rgb(16, 142, 233);"></fa-icon></div>
+      </ng-template>      
+      <router-outlet></router-outlet>
+    </TabBarItem>
+  </TabBar>

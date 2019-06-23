@@ -1,0 +1,81 @@
+.product-container {
+    margin-top: 5px;
+    margin-bottom: 45px;
+}
+img {
+    width: 100%;
+}
+.product-name {
+    padding-bottom: 2px;
+    border-bottom: 1px solid #DDD8CE;
+}
+.buy-price {
+    position: relative;
+    border-bottom: 1px solid #DDD8CE;
+}
+.buy-price .price {
+    vertical-align: text-top;
+    display: inline-block;
+}
+.strong-color {
+    color: #06c1ae;
+}
+.buy-price button{
+    position: absolute;
+    right: .9rem;
+    top: .61rem;
+}
+.stock-info {
+    border-bottom: 1px solid #DDD8CE;
+}
+.merchant-info {
+    padding-right: 0;
+    border-bottom: 1px solid #DDD8CE;
+}
+.merchant-head {
+    border-bottom: 1px solid #DDD8CE;  
+    font-weight: 400;
+    padding: 0 0 10px 0;
+}
+.merchant-detail {
+    padding: 5px 0 0 0;
+}
+.merchant-detail .title {
+    margin-top: 5px;
+    margin-bottom: .18rem;
+}
+.merchant-detail .address {
+    padding-right: .2rem;
+    color: #666;
+    padding-top: 10px;
+}
+.single-line {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.merchant-phone i {
+    color: #06c1ae;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+.merchant-open {
+    margin-top: 5px;
+}
+.merchant-time {
+    padding-top: 0.2rem;
+    padding-left: 0.86rem;
+}
+.form-control-label.order-error {
+    padding: 0;
+}
+.offline {
+    color:#c7254e;
+    padding-left: 10px;
+}
+div.product-property {
+    margin: 10px;
+}
+.product-property-radio-button {
+    margin-right: 10px;
+}

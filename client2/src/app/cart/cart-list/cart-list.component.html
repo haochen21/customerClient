@@ -1,0 +1,76 @@
+<div class="card-container">
+    <div class="cart-card" *ngFor="let cart of carts">
+        <p class="merchant-info">
+            <label class="merchant-name">{{cart.merchant.name}}</label>
+        </p>
+        <ul class="cart-items">
+            <li class="cart-item" *ngFor="let item of cart.cartItems">
+                <p class="promote" *ngIf="item.product.needPay">
+                    <span class="strong">提前支付</span>
+                    <span>该商品要求支付后订单才能生成</span>
+                </p>
+                <div class="item-box">
+                    <div class="check float-left" *ngIf="false">
+                        <CheckboxItem [(ngModel)]="item.isChecked" (onChange)="changeItemCheck(item,$event)">
+                        </CheckboxItem>
+                    </div>
+                    <div class="product-info float-left">
+                        <div class="float-left">
+                            <a class="img-wrap">
+                                <img *ngIf="item.product.imageSource"
+                                    [src]="imagePreUrl+item.product.imageSource+'-sm'">
+                                <img *ngIf="!item.product.imageSource" src="../../assets/images/orderpic_03.png">
+                            </a>
+                        </div>
+                        <div class="product-desc">
+                            <p class="title f-toe">
+                                <span>{{ item.name }}</span>
+                                <span class="item-property" *ngFor="let selectProductProperty of item.selectProductProperties">
+                                        {{ selectProductProperty.value }}
+                                    </span>
+                            </p>
+                            <div class="set-count">
+                                <span class="countbox">
+                                    <span class="minus z-dis" (click)="minusQuality(item)">
+                                        <i [class.active]="item.quantity > 1"></i>
+                                    </span>
+                                    <input type="text" class="ipt" [(ngModel)]="item.quantity" readonly="readonly"
+                                        autocomplete="off" min="1" max="5">
+                                    <span class="plus" (click)="addQuality(item)">
+                                        <i [class.disable]="item.quantity > 5"></i>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-price float-right">
+                        <p class="price">¥
+                            <i>{{getItemDiscount(cart,item) | number }}</i>
+                        </p>
+                        <p class="amount">×{{item.quantity}}</p>
+                        <b class="product-remove" (click)="removeItem(cart,item)"></b>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="gather">
+            <span class="float-left">已选商品
+                <span>{{getTotalQuality(cart)}}</span>件</span>
+            <div class="rpart float-right">
+                <p class="total">商品总额：
+                    <span class="val">¥
+                        <i class="f-fw">{{getPayPrice(cart) | number }}</i>
+                        <i class="f-fw packagefee" *ngIf="cart.merchant.packageFee"><i
+                                class="fas fa-plus"></i>打包费用&nbsp;{{cart.merchant.packageFee | number }}</i>
+                    </span>
+                </p>
+                <div class="alert alert-danger" *ngIf="!isMinimumOrder(cart)">
+                    最少订单数额：¥
+                    <strong>{{cart.merchant.minimumOrder | number }}</strong> 。还差：¥
+                    {{getLeftMinimumOrder(cart) | number }}
+                </div>
+                <button class="btn btn-info" (click)="purchase(cart)" [disabled]="!isMinimumOrder(cart)">结算</button>
+            </div>
+        </div>
+    </div>
+</div>

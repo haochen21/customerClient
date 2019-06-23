@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="header row">
+        <div class="header-title"><span>人工确认提货</span></div>
+    </div>
+    <div>
+        <div class="alert alert-danger">
+            <strong>请注意：</strong> 当您收到商品/预约服务完成/预约服务前台确认智能终端没有打印的情况下，点击确认提货，代表该服务完成。谢谢您的配合！
+        </div>
+        <ul class="notification-body" *ngFor="let cart of cartPage.content">
+            <li>
+                <span>
+                    <div class="bar-holder no-padding">
+                        <div class="bar-info">
+                            <div class="bar-btn">
+                                <button type="button" class="btn btn-sm btn-secondary" (click)="showDetail(cart)">
+                                    {{cart.showDetail?'收起':'详情'}}
+                                </button>
+                            </div>
+                            <div class="note no-margin">
+                                <span>订单编号：</span><span>{{cart.id}}</span>
+                            </div>
+                            <div class="note no-margin">
+                                <span>订单状态：</span>
+                                <span style="font-size: 15px;" *ngIf="cart.needPay">
+                                    <i class="fas fa-yen-sign text-danger"></i>
+                                </span>
+                                <span style="font-size: 12px;" *ngIf="!cart.needPay">
+                                    <i class="fas fa-check text-success"></i>
+                                </span> {{cart.status | cartStatusFormatPipe }}
+                            </div>
+                            <div class="note no-margin">
+                                <span>商品数量：</span>
+                                <span>{{getProductNumber(cart)}}</span>
+                            </div>
+                            <div class="note no-margin">
+                                <span>生成时间：</span>
+                                <span>{{cart.createdOn | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+                            </div>
+                            <div class="note no-margin" *ngIf="!cart.takeOut">
+                                <span>取货时段：</span>
+                                <span>{{cart.takeBeginTime | amDateFormat:"YYYY-MM-DD"}}</span><span>{{cart.takeBeginTime | amDateFormat:" HH:mm:ss"}}
+                                    - {{cart.takeEndTime | amDateFormat:"HH:mm:ss"}}</span>
+                            </div>
+                            <div class="note no-margin text-danger" *ngIf="cart.status === 0">
+                                <span>支付时限：</span>
+                                <span>{{cart.payTime | amDateFormat:"YYYY-MM-DD HH:mm:ss"}}</span>
+                            </div>
+                        </div>
+                        <div class="bar-detail" *ngIf="cart.showDetail">
+                            <table class="table">
+                                <tbody>
+                                    <tr *ngFor="let cartItem of cart.cartItems">
+                                        <td>{{cartItem.name}}</td>
+                                        <td><i class="fas fa-yen-sign padding-right-5"></i>{{cartItem.unitPrice}}</td>
+                                        <td>{{cartItem.quantity}}</td>
+                                        <td><i class="fas fa-yen-sign padding-right-5"></i>{{cartItem.totalPrice}}</td>
+                                    </tr>
+                                    <tr class="dashed">
+                                        <td colspan="3"></td>
+                                        <td><i class="fas fa-yen-sign padding-right-5"></i>{{cart.totalPrice}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div *ngIf="cart.status === 3">
+                            <button class="btn btn-success bill-btn" (click)="deliver(cart)">完成订单</button>
+                        </div>
+                    </div>
+                </span>
+            </li>
+        </ul>
+        <div class="text-center margin-top-10" *ngIf="cartPage.content && !cartPage.last">
+            <button type="button" class="btn btn-light" (click)="queryNextPage()">下一页</button>
+        </div>
+    </div>
+</div>
